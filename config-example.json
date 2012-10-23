@@ -1,0 +1,11 @@
+{
+    "chrome":[
+        {"name":"SunSpider","version":"0.9.1"},
+        {"name":"Octane"},
+        {"name":"FishIETank","fishNumber":50}
+    ],
+    "firefox":[
+        {"name":"SunSpider","version":"0.9.0"},
+        {"name":"Octane"},    
+    ]
+}
