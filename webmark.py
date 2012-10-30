@@ -39,7 +39,7 @@ class WebMark(object):
     #   path = '/home/pinger/chromium/src/out/Release/chrome'
         path = 'chrome'
     #   option.binary_location = path
-    #    option.add_argument("--proxy-server=http://proxy.pd.intel.com:911")
+        option.add_argument("--proxy-server=http://proxy.pd.intel.com:911")
         self.driver = webdriver.Chrome(chrome_options=option)
         
     def ie_setup(self):

@@ -11,7 +11,7 @@ class Octane(object):
         self.driver.get("http://octane-benchmark.googlecode.com/svn/latest/index.html")
         self.driver.find_element_by_id("run-octane").click()
         elem = self.driver.find_element_by_id("main-banner")
-        time.sleep(120)
+        time.sleep(60)
         wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: elem.text.find("Score:") != -1)
         str = elem.text
         pos = str.find(":") + 1

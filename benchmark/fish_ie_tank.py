@@ -11,12 +11,12 @@ class FishIETank(object):
         self.driver.get("http://ie.microsoft.com/testdrive/Performance/FishIETank/Default.html")
         elem = self.driver.find_element_by_id("fpsCanvas")
         fps = 0.0
-        time.sleep(15)
-        for i in range(1,21):
+        time.sleep(20)
+        for i in range(1,16):
             str = elem.get_attribute("title").lower()
             start = str.find("at") + 2
             end = str.find("fps")
             str = str[start:end].strip()
             fps += (int(str) - fps) / i
-            time.sleep(15)
+            time.sleep(20)
         self.logf.write("FishIE Tank (20 fish): %.2f%s\n" % (fps, "FPS"))
