@@ -1,12 +1,8 @@
 [P1]
-* Rename script name and class name to WebMark
-* Unify the rule of naming benchmarks
-* Try best to share code and move benchmark to specific folder
 * Import support of benchmark on demand
 * Add command line support and support config file (see config-example.json)
-* Add support to all benchmarks listed at https://tizen.jf.intel.com/web_runtime_benchmark
 * Add a README to include how to set up test environment, current support platforms, etc.
-* Verify if the result is similar with the one tested without our framework
+* Handle exceptions
 
 [P2]
 * FishIETank supports different number of fishes
