@@ -3,8 +3,12 @@
 * Add command line support and support config file (see config-example.json)
 * Add a README to include how to set up test environment, current support platforms, etc.
 * Handle exceptions
+* Add proxy configure
+* Add binary path configure
 
 [P2]
 * FishIETank supports different number of fishes
 * Find an easy way to generate final report
 * Support web runtime with app mode test
+* Configure how many times a case to run
+* Add check-in tests
