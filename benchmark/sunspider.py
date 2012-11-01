@@ -9,8 +9,8 @@ class SunSpider(object):
     def run(self):
         print "Run SunSpider benchmark..."
         self.driver.get("http://www.webkit.org/perf/sunspider-0.9.1/sunspider-0.9.1/driver.html")
-        time.sleep(60)
-        wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: x.current_url.lower().find("result") != -1)
+        time.sleep(10)
+        wait.WebDriverWait(self.driver, 1200, 10).until(lambda x: x.current_url.lower().find("result") != -1)
         elem = self.driver.find_element_by_id("console")
         str = elem.text
         pos = str.find("Total:")+len("Total:")
