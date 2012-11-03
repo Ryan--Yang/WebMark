@@ -9,8 +9,9 @@ class DromaeoAllJavascriptTests(object):
     def run(self):
         print "Run Dromaeo (All JavaScript Tests)..."
         self.driver.get("http://dromaeo.com/?dromaeo|sunspider|v8")
-        time.sleep(2)
-        self.driver.find_element_by_id("pause").click()
+        pause = self.driver.find_element_by_id("pause")
+        wait.WebDriverWait(self.driver, 60, 3).until(lambda x: pause.get_attribute("value") == "Run")
+        pause.click()
         time.sleep(600)
         elem = self.driver.find_element_by_id("timebar")
         wait.WebDriverWait(self.driver, 6000, 30).until(lambda x: elem.text.find("Total") != -1)

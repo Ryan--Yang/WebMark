@@ -10,8 +10,9 @@ class DromaeoAllDOMTests(object):
     def run(self):
         print "Run Dromaeo (All DOM Tests)..."
         self.driver.get("http://dromaeo.com/?dom|jslib|cssquery")
-        time.sleep(1)
-        self.driver.find_element_by_id("pause").click()
+        pause = self.driver.find_element_by_id("pause")
+        wait.WebDriverWait(self.driver, 60, 3).until(lambda x: pause.get_attribute("value") == "Run")
+        pause.click()
         time.sleep(60)
         elem = self.driver.find_element_by_id("timebar")
         try:
