@@ -3,7 +3,7 @@ from selenium.webdriver.support import wait
 from selenium.common.exceptions import WebDriverException
 
 class V8BenchmarkSuite(object):
-    GET_STATUS_JS = 'return document.getElementById("status").innerText'
+    GET_STATUS_JS = 'return document.getElementById("status").innerHTML'
 
     def __init__(self, driver, logf):
         self.driver = driver
@@ -12,7 +12,7 @@ class V8BenchmarkSuite(object):
     def run(self):
         print "Run V8 Benchmark Suite..."
         self.driver.get("http://v8.googlecode.com/svn/data/benchmarks/v7/run.html")
-        time.sleep(100)
+        time.sleep(30)
         try:
             #elem = self.driver.find_element_by_id("status")
             #wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: elem.text.find("Score:") != -1)

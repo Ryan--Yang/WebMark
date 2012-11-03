@@ -1,4 +1,4 @@
-﻿import logging
+import logging
 import time
 import os
 import sys
@@ -10,10 +10,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from common import utils
-from benchmark import *
+#from benchmark.test import Test1,Test2,Test3
 
         
-class WebMark(object) :
+class WebMark(object):
     def __init__(self):
         rs_path = 'benchmark_test_results/'
         if not os.path.exists(rs_path):
@@ -23,7 +23,7 @@ class WebMark(object) :
         strTime = time.strftime('%Y-%m-%d_%H_%M_%S', now)
         self.logf = file(rs_path + 'result_' + strTime + '.log', 'w')
 
-    def __del__(self) :
+    def __del__(self):
         self.logf.close()
 
     def _suite_setup(self, browser='chrome', binary=None, proxy=None) :
@@ -31,7 +31,7 @@ class WebMark(object) :
         if browser == 'chrome':
             self.chrome_setup(binary=binary, proxy=proxy)
         elif browser == 'ie':
-            self.ie_setup()
+            self.ie_setup(proxy=proxy)
         elif browser == 'firefox':
             self.firefox_setup(binary=binary, proxy=proxy)
         else:
@@ -39,14 +39,14 @@ class WebMark(object) :
             
         self.driver.maximize_window()
     
-    def _suite_teardown(self) :
+    def _suite_teardown(self):
         try:
             self.driver.quit()
         except:
             pass
         
 
-    def chrome_setup(self, binary=None, proxy=None) :
+    def chrome_setup(self, binary=None, proxy=None):
         option = Options()
         if binary is not None:
             option.binary_location = binary
@@ -55,8 +55,10 @@ class WebMark(object) :
     #    self.driver = ChromeDriver(binary=binary, proxy=proxy)
         self.driver = webdriver.Chrome(chrome_options = option)
         
-    def ie_setup(self) :
+    def ie_setup(self, proxy=None):
         #self.driver = IeDriver(proxy=proxy)
+        if proxy is not None:
+            utils.set_ie_proxy(proxy)
         self.driver = webdriver.Ie()
         
     def firefox_setup(self, binary=None, proxy=None) :
@@ -65,13 +67,23 @@ class WebMark(object) :
         if proxy is not None:
             firefox_profile.set_proxy(utils.proxy_raw_format(proxy))
         self.driver = webdriver.Firefox(firefox_profile=firefox_profile, firefox_binary=firefox_binary)
-        #self.driver = FirefoxDriver(binary=binary, proxy=proxy)    
+        #self.driver = FirefoxDriver(binary=binary, proxy=proxy)  
         
-    def test(self, tc) :
-        benchmark = eval(tc + '(self.driver,self.logf)')
+    def test(self, tc):
+        if (not tc.has_key('name')) or tc['name'] is None:
+            self._print("Error: Has no name attribute in configure file")
+            return
+        
+        name = tc['name']
+        try:
+            exec 'from benchmark import ' + name
+        except ImportError:
+            self._print(name + ": Import module error.\n")
+            return
+        benchmark = eval(name + '(self.driver,self.logf)')
         benchmark.run()
         
-    def test_suite_run(self) :
+    def test_suite_run(self):
         self.test('SunSpider')
         self.test('V8BenchmarkSuite')
         self.test('FishIETank')
@@ -102,12 +114,16 @@ class WebMark(object) :
 
             self._suite_setup(browser=browser, binary=binary, proxy=proxy)
  
-            for benchmark in suite['benchmarks'] :
-                self.test(benchmark['name'])
+            for benchmark in suite['benchmarks']:
+                self.test(benchmark)
             self._suite_teardown()
         config.close()
+        
+    def _print(self, str):
+        print str
+        self.logf.write(str)
 
-def usage() :
+def usage():
     print "usage: webmark.py [config]"
     
 #if __name__=="__main__" :
