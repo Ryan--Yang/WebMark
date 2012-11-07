@@ -1,4 +1,3 @@
-import _winreg
 from selenium.webdriver.common.proxy import ProxyType
 from selenium.webdriver.common.proxy import Proxy
 
@@ -98,6 +97,7 @@ def set_ie_proxy(proxy_raw):
     if proxy_raw is None:
         return
     
+    import _winreg
     proxy = proxy_raw_format(proxy_raw)
     key = _winreg.OpenKey(
         _winreg.HKEY_CURRENT_USER,
