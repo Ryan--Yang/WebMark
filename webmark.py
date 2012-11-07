@@ -154,6 +154,8 @@ class WebMark(object):
                 
         if rs_avg == 0.0:
             result = 'N/A'
+        elif times == 1:
+            result = str(rs_avg)
         else:
             result = str(round(rs_avg, 2))
         self._print("%s: %s %s" % (benchmark.name, result, benchmark.metric))
