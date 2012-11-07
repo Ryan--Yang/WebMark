@@ -15,7 +15,7 @@ class GUIMark3BitmapCache(Benchmark):
         return "fps"
 
     def run(self):
-        self.driver.get("http://www.craftymind.com/factory/guimark3/bitmap/GM3_JS_Bitmap_cache.html")
+        self.open("http://www.craftymind.com/factory/guimark3/bitmap/GM3_JS_Bitmap_cache.html")
         elem = self.driver.find_element_by_id("testlabel")
         fps = 0.0        
         for i in range(1,16):

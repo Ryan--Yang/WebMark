@@ -15,13 +15,13 @@ class DromaeoAllJavascriptTests(Benchmark):
         return "runs/second"
         
     def run(self):
-        self.driver.get("http://dromaeo.com/?dromaeo|sunspider|v8")
+        self.open("http://dromaeo.com/?dromaeo|sunspider|v8")
         pause = self.driver.find_element_by_id("pause")
         wait.WebDriverWait(self.driver, 60, 3).until(lambda x: pause.get_attribute("value") == "Run")
         pause.click()
         time.sleep(200)
         elem = self.driver.find_element_by_id("timebar")
-        wait.WebDriverWait(self.driver, 6000, 120).until(lambda x: elem.text.find("Total") != -1)
+        wait.WebDriverWait(self.driver, 1600, 120).until(lambda x: elem.text.find("Total") != -1)
         str = elem.text
         pos1 = str.find(":") + 1
         pos2 = str.find("runs/s")

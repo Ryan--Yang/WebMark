@@ -15,7 +15,7 @@ class Octane(Benchmark):
         return "score"
         
     def run(self):
-        self.driver.get("http://octane-benchmark.googlecode.com/svn/latest/index.html")
+        self.open("http://octane-benchmark.googlecode.com/svn/latest/index.html")
         time.sleep(1)
         self.driver.find_element_by_id("run-octane").click()
         elem = self.driver.find_element_by_id("main-banner")

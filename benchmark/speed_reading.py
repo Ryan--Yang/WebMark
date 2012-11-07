@@ -20,7 +20,7 @@ class SpeedReading(Benchmark):
         return "second"
         
     def run(self):
-        self.driver.get("http://ie.microsoft.com/testdrive/Performance/SpeedReading/Default.html")
+        self.open("http://ie.microsoft.com/testdrive/Performance/SpeedReading/Default.html")
         time.sleep(10)
         wait.WebDriverWait(self.driver, 3600, 5).until(lambda x: x.execute_script(self.IS_START))
         self.driver.execute_script(self.START_TEST)

@@ -18,3 +18,7 @@ class Benchmark(object):
     @log_file.setter
     def log_file(self, logf):
         self.logf = logf
+        
+    def open(self, url):
+        self.driver.get(url)
+        self.driver.implicitly_wait(300)

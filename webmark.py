@@ -47,7 +47,7 @@ class WebMark(object):
         except Exception, e:
             print e
             pass
-        time.sleep(10)
+        time.sleep(5)
             
     def _suite_teardown(self):
         self._driver_quit()

@@ -22,7 +22,7 @@ class BrowserMark(Benchmark):
         return None
 
     def run(self):
-        self.driver.get("http://browsermark.rightware.com/browsermark/run.action")
+        self.open("http://browsermark.rightware.com/browsermark/run.action")
         time.sleep(200)
         href = wait.WebDriverWait(self.driver, 1200, 60).until(self._chk_finished)
         if href.find("result") != -1 :

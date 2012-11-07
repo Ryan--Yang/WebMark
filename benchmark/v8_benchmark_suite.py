@@ -18,7 +18,7 @@ class V8BenchmarkSuite(Benchmark):
         return "score"
         
     def run(self):
-        self.driver.get("http://v8.googlecode.com/svn/data/benchmarks/v7/run.html")
+        self.open("http://v8.googlecode.com/svn/data/benchmarks/v7/run.html")
         time.sleep(60)
         #elem = self.driver.find_element_by_id("status")
         #wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: elem.text.find("Score:") != -1)

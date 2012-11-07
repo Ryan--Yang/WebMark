@@ -33,7 +33,7 @@ class FishIETank(Benchmark):
         time.sleep(1)
 
     def run(self):
-        self.driver.get("http://ie.microsoft.com/testdrive/Performance/FishIETank/Default.html")
+        self.open("http://ie.microsoft.com/testdrive/Performance/FishIETank/Default.html")
         self._set_fish_number_on_page()
         elem = self.driver.find_element_by_id("fpsCanvas")
         fps = 0.0        

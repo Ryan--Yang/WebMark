@@ -17,6 +17,6 @@ class Galactic(Benchmark):
         return "fps"
         
     def run(self):
-        self.driver.get("http://ie.microsoft.com/testdrive/Performance/Galactic/Default.html")
+        self.open("http://ie.microsoft.com/testdrive/Performance/Galactic/Default.html")
         time.sleep(300)
         return self.driver.execute_script(self.GET_RS)
