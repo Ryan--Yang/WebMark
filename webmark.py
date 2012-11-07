@@ -9,8 +9,8 @@ from selenium.webdriver.support import wait
 #from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from common import utils
 from common.chrome_options import Options
+from common import utils
         
 class WebMark(object):
     def __init__(self):
@@ -138,9 +138,12 @@ class WebMark(object):
         for i in range(1,times + 1):
             try:
                 rs = benchmark.run()
-                if i > omit_begin_times and i <= times - omit_end_times:
-                    valid_times += 1
-                    rs_avg += (rs - rs_avg) / valid_times
+                if times > 1:
+                    if i > omit_begin_times and i <= times - omit_end_times:
+                        valid_times += 1
+                        rs_avg += (rs - rs_avg) / valid_times
+                else:
+                    rs_avg = rs
             except Exception, e:
                 rs = "N/A"
                 print "Exception:", e
