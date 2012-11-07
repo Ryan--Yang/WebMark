@@ -1,16 +1,22 @@
 ﻿import time
 from selenium.webdriver.support import wait
+from benchmark import Benchmark
 
-class Galactic(object):
-    GET_RS = 'return gFpsData.AvgFps + " FPS"'
+class Galactic(Benchmark):
+    GET_RS = 'return gFpsData.AvgFps'
 
     def __init__(self, driver, logf):
-        self.driver = driver
-        self.logf = logf
+        Benchmark.__init__(self, driver, logf)
+
+    @property
+    def name(self):
+        return "Galactic"
+
+    @property
+    def metric(self):
+        return "fps"
         
     def run(self):
-        print "Run Galactic benchmark..."
         self.driver.get("http://ie.microsoft.com/testdrive/Performance/Galactic/Default.html")
-        time.sleep(600)
-        rs = self.driver.execute_script(self.GET_RS)
-        self.logf.write("Galactic: " + rs + "\n")
+        time.sleep(300)
+        return self.driver.execute_script(self.GET_RS)

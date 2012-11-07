@@ -1,22 +1,29 @@
 ﻿import time
 from selenium.webdriver.support import wait
+from benchmark import Benchmark
 
-class DromaeoAllJavascriptTests(object):
+class DromaeoAllJavascriptTests(Benchmark):
     def __init__(self, driver, logf):
-        self.driver = driver
-        self.logf = logf
+        Benchmark.__init__(self, driver, logf)
+
+    @property
+    def name(self):
+        return "Dromaeo (All JavaScript Tests)"
+
+    @property
+    def metric(self):
+        return "runs/second"
         
     def run(self):
-        print "Run Dromaeo (All JavaScript Tests)..."
         self.driver.get("http://dromaeo.com/?dromaeo|sunspider|v8")
         pause = self.driver.find_element_by_id("pause")
         wait.WebDriverWait(self.driver, 60, 3).until(lambda x: pause.get_attribute("value") == "Run")
         pause.click()
-        time.sleep(600)
+        time.sleep(200)
         elem = self.driver.find_element_by_id("timebar")
-        wait.WebDriverWait(self.driver, 6000, 30).until(lambda x: elem.text.find("Total") != -1)
+        wait.WebDriverWait(self.driver, 6000, 120).until(lambda x: elem.text.find("Total") != -1)
         str = elem.text
         pos1 = str.find(":") + 1
-        pos2 = str.find("(Total)")
+        pos2 = str.find("runs/s")
         str = str[pos1:pos2].strip()
-        self.logf.write("Dromaeo (All JavaScript Tests): " + str + "\n")
+        return float(str)

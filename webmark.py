@@ -6,12 +6,11 @@ import json
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import wait
-from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from common import utils
-#from benchmark.test import Test1,Test2,Test3
-
+from common.chrome_options import Options
         
 class WebMark(object):
     def __init__(self):
@@ -26,8 +25,10 @@ class WebMark(object):
     def __del__(self):
         self.logf.close()
 
-    def _suite_setup(self, browser='chrome', binary=None, proxy=None) :
-        self.logf.write("-------------------- " + browser + " --------------------\n")
+    def _suite_setup(self, browser='chrome', binary=None, proxy=None):
+        self.browser = browser
+        self.binary = binary
+        self.proxy = proxy
         if browser == 'chrome':
             self.chrome_setup(binary=binary, proxy=proxy)
         elif browser == 'ie':
@@ -39,12 +40,26 @@ class WebMark(object):
             
         self.driver.maximize_window()
     
-    def _suite_teardown(self):
+    def _driver_quit(self):
         try:
             self.driver.quit()
-        except:
+            self.driver = None
+        except Exception, e:
+            print e
             pass
-        
+        time.sleep(10)
+            
+    def _suite_teardown(self):
+        self._driver_quit()
+        self.driver = None
+        self.browser = None
+        self.binary = None
+        self.proxy = None
+    
+    def _driver_restart(self):
+        if self.driver is not None:
+            self._driver_quit()
+            self._suite_setup(self.browser, self.binary, self.proxy)
 
     def chrome_setup(self, binary=None, proxy=None):
         option = Options()
@@ -67,21 +82,78 @@ class WebMark(object):
         if proxy is not None:
             firefox_profile.set_proxy(utils.proxy_raw_format(proxy))
         self.driver = webdriver.Firefox(firefox_profile=firefox_profile, firefox_binary=firefox_binary)
-        #self.driver = FirefoxDriver(binary=binary, proxy=proxy)  
-        
-    def test(self, tc):
+        #self.driver = FirefoxDriver(binary=binary, proxy=proxy) 
+
+    def _setup_benchmark(self, tc):
         if (not tc.has_key('name')) or tc['name'] is None:
             self._print("Error: Has no name attribute in configure file")
-            return
+            return None
         
         name = tc['name']
         try:
             exec 'from benchmark import ' + name
         except ImportError:
-            self._print(name + ": Import module error.\n")
+            self._print(name + ": Import module error.")
+            return None
+        
+        args = 'self.driver,self.logf'
+        if tc.has_key('args') and tc['args'] is not None:
+            for arg_name in tc['args']:
+                args = args + ',' + arg_name + '='
+                arg_value = tc['args'][arg_name]
+                if isinstance(arg_value, basestring):
+                    args = args + '\"' + arg_value + '\"'
+                else:
+                    args = args + str(arg_value)
+        
+        try:
+            benchmark = eval(name + '(' + args + ')')
+        except TypeError:
+            self._print(name + ": unsupported argument.")
+            return None
+            
+        return benchmark
+    
+    def test(self, tc):
+        benchmark = self._setup_benchmark(tc)
+        if benchmark is None:
             return
-        benchmark = eval(name + '(self.driver,self.logf)')
-        benchmark.run()
+
+        print "Run %s ..." % benchmark.name
+        times = 1
+        if tc.has_key('runTimes') and isinstance(tc['runTimes'], int) and tc['runTimes'] > 1:
+            times = tc['runTimes']
+        omit_begin_times = 0
+        if tc.has_key('omitBegin') and isinstance(tc['omitBegin'], int) and tc['omitBegin'] > 0:
+            omit_begin_times = tc['omitBegin']            
+        omit_end_times = 0
+        if tc.has_key('omitEnd') and isinstance(tc['omitEnd'], int) and tc['omitEnd'] > 1:
+            omit_end_times = tc['omitEnd']
+        if omit_end_times + omit_begin_times >= times:
+            self._print(benchmark.name + ": warning, omitBegin or omitEnd too big.")
+            return
+        
+        rs_avg = 0.0
+        valid_times = 0
+        for i in range(1,times + 1):
+            try:
+                rs = benchmark.run()
+                if i > omit_begin_times and i <= times - omit_end_times:
+                    valid_times += 1
+                    rs_avg += (rs - rs_avg) / valid_times
+            except Exception, e:
+                rs = "N/A"
+                print "Exception:", e
+                self._driver_restart()
+                benchmark.webdriver = self.driver
+                pass
+            print "Turn %d:rs=%s, avg=%f" % (i, str(rs), rs_avg)
+                
+        if rs_avg == 0.0:
+            result = 'N/A'
+        else:
+            result = str(round(rs_avg, 2))
+        self._print("%s: %s %s" % (benchmark.name, result, benchmark.metric))
         
     def test_suite_run(self):
         self.test('SunSpider')
@@ -112,6 +184,7 @@ class WebMark(object):
             if suite.has_key('proxy') and suite['proxy'] is not None:
                 proxy = suite['proxy']
 
+            self.logf.write("-------------------- " + browser + " --------------------\n")
             self._suite_setup(browser=browser, binary=binary, proxy=proxy)
  
             for benchmark in suite['benchmarks']:
@@ -121,7 +194,7 @@ class WebMark(object):
         
     def _print(self, str):
         print str
-        self.logf.write(str)
+        self.logf.write(str + "\n")
 
 def usage():
     print "usage: webmark.py [config]"

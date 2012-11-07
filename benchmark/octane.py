@@ -1,13 +1,20 @@
 ﻿import time
 from selenium.webdriver.support import wait
+from benchmark import Benchmark
 
-class Octane(object):
+class Octane(Benchmark):
     def __init__(self, driver, logf):
-        self.driver = driver
-        self.logf = logf
+        Benchmark.__init__(self, driver, logf)
+
+    @property
+    def name(self):
+        return "Octane"
+
+    @property
+    def metric(self):
+        return "score"
         
     def run(self):
-        print "Run Octane benchmark..."
         self.driver.get("http://octane-benchmark.googlecode.com/svn/latest/index.html")
         time.sleep(1)
         self.driver.find_element_by_id("run-octane").click()
@@ -17,5 +24,4 @@ class Octane(object):
         str = elem.text
         pos = str.find(":") + 1
         str = str[pos:].strip()
-        print "Octane: " + str
-        self.logf.write("Octane: " + str + "\n")
+        return int(str)

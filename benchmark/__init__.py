@@ -12,3 +12,4 @@ from browsermark import BrowserMark
 from peacekeeper import Peacekeeper
 from galactic import Galactic
 from speed_reading import SpeedReading
+from test import Test1,Test2,Test3
