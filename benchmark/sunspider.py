@@ -1,21 +1,36 @@
 ﻿import time
 from selenium.webdriver.support import wait
 from benchmark import Benchmark
+from common.exceptions import WebMarkException
 
 class SunSpider(Benchmark):
-    def __init__(self, driver, logf):
+    _VERSIONS = {
+        "0.9" : "http://www.webkit.org/perf/sunspider-0.9/sunspider-driver.html",
+        "0.9.1" : "http://www.webkit.org/perf/sunspider-0.9.1/sunspider-0.9.1/driver.html"
+    }
+
+    def __init__(self, driver, logf, version = '0.9.1'):
+        if self._VERSIONS.has_key(version):
+            self.version = version
+        else:
+            raise WebMarkException("Unsupported version %s, "
+            "should be one of '0.9.1', '0.9'." % version)
         Benchmark.__init__(self, driver, logf)
 
     @property
     def name(self):
-        return "SunSpider"
+        return "SunSpider(%s)" % self.version
 
     @property
     def metric(self):
         return "ms"
+
+    @property
+    def _url(self):
+        return self._VERSIONS[self.version]
         
     def run(self):
-        self.open("http://www.webkit.org/perf/sunspider-0.9.1/sunspider-0.9.1/driver.html")
+        self.open(self._url)
         time.sleep(60)
         wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: x.current_url.lower().find("result") != -1)
         elem = self.driver.find_element_by_id("console")

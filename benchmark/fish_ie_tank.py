@@ -1,5 +1,6 @@
 ﻿import time
 from selenium.webdriver.support import wait
+from common.exceptions import WebMarkException
 from benchmark import Benchmark
 
 class FishIETank(Benchmark):
@@ -8,7 +9,8 @@ class FishIETank(Benchmark):
         if fishNumber in self.fishes:
             self.fishNumber = fishNumber
         else:
-            raise TypeError("Unsupported fish number, please set it to one of (1, 10, 20, 50, 100, 250, 500, 1000)")
+            raise WebMarkException("Unsupported fish number %d, "
+            "should be one of (1, 10, 20, 50, 100, 250, 500, 1000)" % fishNumber)
             
         Benchmark.__init__(self, driver, logf)
 

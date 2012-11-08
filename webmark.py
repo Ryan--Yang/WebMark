@@ -10,6 +10,7 @@ from selenium.webdriver.support import wait
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from common.chrome_options import Options
+from common.exceptions import WebMarkException
 from common import utils
         
 class WebMark(object):
@@ -110,6 +111,9 @@ class WebMark(object):
             benchmark = eval(name + '(' + args + ')')
         except TypeError:
             self._print(name + ": unsupported argument.")
+            return None
+        except WebMarkException, e:
+            self._print(name + ": " + str(e))
             return None
             
         return benchmark
