@@ -99,13 +99,7 @@ class WebMark(object):
         
         args = 'self.driver,self.logf'
         if tc.has_key('args') and tc['args'] is not None:
-            for arg_name in tc['args']:
-                args = args + ',' + arg_name + '='
-                arg_value = tc['args'][arg_name]
-                if isinstance(arg_value, basestring):
-                    args = args + '\"' + arg_value + '\"'
-                else:
-                    args = args + str(arg_value)
+            args += ', **tc["args"]'
         
         try:
             benchmark = eval(name + '(' + args + ')')

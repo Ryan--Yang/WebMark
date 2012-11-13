@@ -24,7 +24,7 @@ class Peacekeeper(Benchmark):
     def run(self):
         self.open("http://peacekeeper.futuremark.com/run.action")
         time.sleep(270)
-        href = wait.WebDriverWait(self.driver, 1200, 60).until(self._chk_finished)
+        href = wait.WebDriverWait(self.driver, 600, 60).until(self._chk_finished)
         if href.find("results") != -1 :
             elem = self.driver.find_element_by_class_name("your-score")
             str = elem.text
