@@ -22,6 +22,7 @@ class WebMark(object):
         now = time.localtime()
         strTime = time.strftime('%Y-%m-%d_%H_%M_%S', now)
         self.logf = file(rs_path + 'result_' + strTime + '.log', 'w')
+        self.driver = None
 
     def __del__(self):
         self.logf.close()
@@ -30,16 +31,6 @@ class WebMark(object):
         self.browser = browser
         self.binary = binary
         self.proxy = proxy
-        if browser == 'chrome':
-            self.chrome_setup(binary=binary, proxy=proxy)
-        elif browser == 'ie':
-            self.ie_setup(proxy=proxy)
-        elif browser == 'firefox':
-            self.firefox_setup(binary=binary, proxy=proxy)
-        else:
-            self.chrome_setup(binary=binary, proxy=proxy)
-            
-        self.driver.maximize_window()
     
     def _driver_quit(self):
         try:
@@ -48,19 +39,29 @@ class WebMark(object):
         except Exception, e:
             print e
             pass
-        time.sleep(5)
+        time.sleep(1)
             
     def _suite_teardown(self):
-        self._driver_quit()
+        if self.driver is not None:
+            self._driver_quit()
         self.driver = None
         self.browser = None
         self.binary = None
         self.proxy = None
     
-    def _driver_restart(self):
+    def _driver_start(self):
         if self.driver is not None:
             self._driver_quit()
-            self._suite_setup(self.browser, self.binary, self.proxy)
+        if self.browser == 'chrome':
+            self.chrome_setup(binary=self.binary, proxy=self.proxy)
+        elif self.browser == 'ie':
+            self.ie_setup(proxy=self.proxy)
+        elif self.browser == 'firefox':
+            self.firefox_setup(binary=self.binary, proxy=self.proxy)
+        else:
+            self.chrome_setup(binary=self.binary, proxy=self.proxy)
+            
+        self.driver.maximize_window()
 
     def chrome_setup(self, binary=None, proxy=None):
         option = Options()
@@ -135,6 +136,8 @@ class WebMark(object):
         valid_times = 0
         for i in range(1,times + 1):
             try:
+                self._driver_start()
+                benchmark.webdriver = self.driver
                 rs = benchmark.run()
                 if times > 1:
                     if i > omit_begin_times and i <= times - omit_end_times:
@@ -145,9 +148,8 @@ class WebMark(object):
             except Exception, e:
                 rs = "N/A"
                 print "Exception:", e
-                self._driver_restart()
-                benchmark.webdriver = self.driver
                 pass
+
             print "Turn %d:rs=%s, avg=%f" % (i, str(rs), rs_avg)
                 
         if rs_avg == 0.0:

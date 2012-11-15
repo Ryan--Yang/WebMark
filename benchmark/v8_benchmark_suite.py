@@ -29,7 +29,7 @@ class V8BenchmarkSuite(Benchmark):
         
     def run(self):
         self.open(self._url)
-        time.sleep(30)
+        time.sleep(60)
         #elem = self.driver.find_element_by_id("status")
         #wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: elem.text.find("Score:") != -1)
         wait.WebDriverWait(self.driver, 900, 30).until(
