@@ -5,14 +5,14 @@ from benchmark import Benchmark
 
 class FishIETank(Benchmark):
     fishes = (1, 10, 20, 50, 100, 250, 500, 1000)
-    def __init__(self, driver, logf, fishNumber=20):
+    def __init__(self, driver, logf, appmode=False, fishNumber=20):
         if fishNumber in self.fishes:
             self.fishNumber = fishNumber
         else:
             raise WebMarkException("Unsupported fish number %d, "
             "should be one of (1, 10, 20, 50, 100, 250, 500, 1000)" % fishNumber)
             
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):

@@ -7,13 +7,13 @@ class V8BenchmarkSuite(Benchmark):
     GET_STATUS_JS = 'return document.getElementById("status").innerHTML'
     _VERSIONS = ('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7')
 
-    def __init__(self, driver, logf, version='v7'):
+    def __init__(self, driver, logf, appmode=False, version='v7'):
         if version in self._VERSIONS:
             self.version = version
         else:
             raise WebMarkException("Unsupported version %s, "
             "should be one of ('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7')" % version)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):

@@ -8,13 +8,13 @@ class Dromaeo(Benchmark):
         "all javascript tests" : "http://dromaeo.com/?dromaeo|sunspider|v8",
         "all dom tests" : "http://dromaeo.com/?dom|jslib|cssquery"
     }
-    def __init__(self, driver, logf, suite = 'All JavaScript Tests'):
+    def __init__(self, driver, logf, appmode=False, suite = 'All JavaScript Tests'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'All JavaScript Tests', 'All DOM Tests'." % suite)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):

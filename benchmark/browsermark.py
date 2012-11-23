@@ -4,8 +4,8 @@ from common.exceptions import WebMarkException
 from benchmark import Benchmark
 
 class BrowserMark(Benchmark):
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
@@ -22,11 +22,13 @@ class BrowserMark(Benchmark):
         return None
 
     def run(self):
-        self.open("http://browsermark.rightware.com/browsermark/run.action")
+        self.open("http://browsermark.rightware.com/")
+        self.driver.find_element_by_xpath("//a[text()='North America']").click()
+        self.driver.find_element_by_class_name("start_test").click()
         time.sleep(200)
         href = wait.WebDriverWait(self.driver, 1200, 60).until(self._chk_finished)
         if href.find("result") != -1 :
-            elem = self.driver.find_element_by_id("score")
+            elem = self.driver.find_element_by_class_name("score")
             str = elem.text
             return int(str)
         else:

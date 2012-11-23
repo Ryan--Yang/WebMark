@@ -5,8 +5,8 @@ from benchmark import Benchmark
 class Galactic(Benchmark):
     GET_RS = 'return gFpsData.AvgFps'
 
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):

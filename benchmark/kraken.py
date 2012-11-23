@@ -3,8 +3,8 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class Kraken(Benchmark):
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):

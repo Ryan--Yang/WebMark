@@ -10,13 +10,13 @@ class GUIMark3(Benchmark):
         "vector" : "http://www.craftymind.com/factory/guimark3/vector/GM3_JS_Vector.html"
     }
 
-    def __init__(self, driver, logf, suite = 'bitmap'):
+    def __init__(self, driver, logf, appmode=False, suite = 'bitmap'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'bitmap', 'bitmap cache', 'vector'." % suite)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):

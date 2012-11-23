@@ -16,7 +16,7 @@ from common.chromedriver import WebDriver as ChromeDriver
 
 class WebMark(object):
     def __init__(self):
-        rs_path = 'benchmark_test_results/'
+        rs_path = os.path.dirname(os.path.realpath(__file__)) + '/benchmark_test_results/'
         if not os.path.exists(rs_path):
             os.mkdir(rs_path)
 

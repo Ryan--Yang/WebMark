@@ -4,8 +4,8 @@ from common.exceptions import WebMarkException
 from benchmark import Benchmark
 
 class Peacekeeper(Benchmark):
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
@@ -17,7 +17,7 @@ class Peacekeeper(Benchmark):
 
     def _chk_finished(self, driver):
         href = driver.current_url.lower()
-        if href.find("results") != -1 or href.find("error") != -1 :
+        if href.find("results") != -1 or href.find("error") != -1:
             return href
         return None      
 

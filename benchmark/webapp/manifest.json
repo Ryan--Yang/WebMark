@@ -1,0 +1,21 @@
+{
+   "app": {
+      "launch": {
+         "local_path": "blank.html",
+		 "container": "panel"
+      }
+   },
+   "description": "Run benchmark in app mode",
+   "icons": {
+      "128": "icon.png"
+   },
+   "name": "Run Benchmark",
+   "manifest_version": 2,
+   "version": "1.0.0",
+   "permissions": [
+      "unlimitedStorage",
+      "notifications",
+      "http://*/*",
+      "https://*/*"
+   ]
+}

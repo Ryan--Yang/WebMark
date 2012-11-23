@@ -8,8 +8,8 @@ class SpeedReading(Benchmark):
     IS_STOP = 'return tryAgainButtonVisible'
     GET_RS = 'return Math.floor(((perf.testDuration - totalCallbackDuration) / 1000))'
 
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
