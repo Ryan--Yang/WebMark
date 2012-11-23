@@ -47,7 +47,7 @@
             "noProxy":"localhost,127.0.0.1,*.intel.com"
         },
         "benchmarks":[
-            {"name":"SunSpider"},
+            {"name":"SunSpider","args":{"appmode":true}},
             {"name":"V8BenchmarkSuite"},
             {"name":"FishIETank","args":{"fishNumber":20}},
             {"name":"Octane"},
