@@ -50,11 +50,11 @@ class WebMark(object):
         self.binary = None
         self.proxy = None
 
-    def _driver_start(self):
+    def _driver_start(self, benchmark):
         if self.driver is not None:
             self._driver_quit()
         if self.browser == 'chrome':
-            self.chrome_setup(binary=self.binary, proxy=self.proxy)
+            self.chrome_setup(benchmark=benchmark, binary=self.binary, proxy=self.proxy)
         elif self.browser == 'ie':
             self.ie_setup(proxy=self.proxy)
         elif self.browser == 'firefox':
@@ -63,13 +63,17 @@ class WebMark(object):
             self.chrome_setup(binary=self.binary, proxy=self.proxy)
 
         self.driver.maximize_window()
+        benchmark.webdriver = self.driver
 
-    def chrome_setup(self, binary=None, proxy=None):
+    def chrome_setup(self, benchmark=None, binary=None, proxy=None):
         option = Options()
         if binary is not None:
             option.binary_location = binary
         if proxy is not None:
             utils.add_proxy_to_chrome_options(proxy, option)
+        if benchmark is not None and benchmark.extra_chrome_args is not None:
+            option.arguments.extend(benchmark.extra_chrome_args)
+        
     #    self.driver = ChromeDriver(binary=binary, proxy=proxy)
     #    self.driver = webdriver.Chrome(chrome_options = option)
     #    option.add_argument('--app=http://www.webkit.org/perf/sunspider-0.9.1/sunspider-0.9.1/driver.html')
@@ -153,8 +157,8 @@ class WebMark(object):
         valid_times = 0
         for i in range(1,times + 1):
             try:
-                self._driver_start()
-                benchmark.webdriver = self.driver
+                self._driver_start(benchmark)
+                
                 rs = benchmark.run()
                 if times > 1:
                     if i > omit_begin_times and i <= times - omit_end_times:
@@ -200,6 +204,7 @@ class WebMark(object):
     def _print(self, str):
         print str
         self.logf.write(str + "\n")
+        self.logf.flush()
 
 def usage():
     print "usage: webmark.py [config]"

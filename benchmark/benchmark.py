@@ -26,6 +26,11 @@ class Benchmark(object):
     @property
     def webbench_path(self):
         return 'file:///' + self.path + 'WebBench/'
+		
+    @property
+    def extra_chrome_args(self):
+        return None
+
 
     def _appmode_str(self, with_comma=False):
         if self.appmode:
