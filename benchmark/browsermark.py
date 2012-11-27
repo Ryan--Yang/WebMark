@@ -9,7 +9,7 @@ class BrowserMark(Benchmark):
 
     @property
     def name(self):
-        return "BrowserMark"
+        return "BrowserMark%s" % self.name_common_ext()
 
     @property
     def metric(self):

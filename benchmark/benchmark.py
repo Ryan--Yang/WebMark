@@ -1,9 +1,11 @@
 import os
+
 class Benchmark(object):
-    def __init__(self, driver, logf, appmode = False):
+    def __init__(self, driver, logf, appmode=False, offline=False):
         self.driver = driver
         self.logf = logf
         self.appmode = appmode
+        self.offline = offline
     
     @property
     def webdriver(self):
@@ -20,6 +22,33 @@ class Benchmark(object):
     @property
     def path(self):
         return os.path.dirname(os.path.realpath(__file__)) + '/'
+
+    @property
+    def webbench_path(self):
+        return 'file:///' + self.path + 'WebBench/'
+
+    def _appmode_str(self, with_comma=False):
+        if self.appmode:
+            if with_comma:
+                return 'appmode,'
+            return 'appmode'
+        return ''
+
+    def _offline_str(self, with_comma=False):
+        if self.offline:
+            if with_comma:
+                return 'offline,'
+            return 'offline'
+        return ''
+        
+    def name_common_ext(self, with_comma=False):
+        if (not self.appmode) and (not self.offline):
+            return ''
+        if with_comma:
+            return self._appmode_str(True) + self._offline_str(True)
+        if self.offline:
+            return '(%s%s)' % (self._appmode_str(True), self._offline_str())
+        return '(%s)' % self._appmode_str()
 
     @log_file.setter
     def log_file(self, logf):

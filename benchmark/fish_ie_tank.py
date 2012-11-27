@@ -5,22 +5,28 @@ from benchmark import Benchmark
 
 class FishIETank(Benchmark):
     fishes = (1, 10, 20, 50, 100, 250, 500, 1000)
-    def __init__(self, driver, logf, appmode=False, fishNumber=20):
+    def __init__(self, driver, logf, appmode=False, offline=False, fishNumber=20):
         if fishNumber in self.fishes:
             self.fishNumber = fishNumber
         else:
             raise WebMarkException("Unsupported fish number %d, "
             "should be one of (1, 10, 20, 50, 100, 250, 500, 1000)" % fishNumber)
             
-        Benchmark.__init__(self, driver, logf, appmode)
+        Benchmark.__init__(self, driver, logf, appmode, offline)
 
     @property
     def name(self):
-        return "FishIE Tank(%d fish)" % self.fishNumber
+        return "FishIE Tank(%s%d fish)" % (self.name_common_ext(True), self.fishNumber)
 
     @property
     def metric(self):
         return "fps"
+
+    @property
+    def _url(self):
+        if self.offline:
+            return self.webbench_path + 'microsoft/testdrive/Performance/FishIETank/Default.html'
+        return "http://ie.microsoft.com/testdrive/Performance/FishIETank/Default.html"
 
     @property
     def _order_number(self):
@@ -35,7 +41,7 @@ class FishIETank(Benchmark):
         time.sleep(1)
 
     def run(self):
-        self.open("http://ie.microsoft.com/testdrive/Performance/FishIETank/Default.html")
+        self.open(self._url)
         self._set_fish_number_on_page()
         elem = self.driver.find_element_by_id("fpsCanvas")
         fps = 0.0        

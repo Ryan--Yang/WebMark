@@ -5,22 +5,22 @@ from common.exceptions import WebMarkException
 
 class GUIMark3(Benchmark):
     _SUITES = {
-        "bitmap" : "http://www.craftymind.com/factory/guimark3/bitmap/GM3_JS_Bitmap.html",
-        "bitmap cache" : "http://www.craftymind.com/factory/guimark3/bitmap/GM3_JS_Bitmap_cache.html",
-        "vector" : "http://www.craftymind.com/factory/guimark3/vector/GM3_JS_Vector.html"
+        "bitmap" : "%s/bitmap/GM3_JS_Bitmap.html",
+        "bitmap cache" : "%s/bitmap/GM3_JS_Bitmap_cache.html",
+        "vector" : "%s/vector/GM3_JS_Vector.html"
     }
 
-    def __init__(self, driver, logf, appmode=False, suite = 'bitmap'):
+    def __init__(self, driver, logf, appmode=False, offline=False, suite = 'bitmap'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'bitmap', 'bitmap cache', 'vector'." % suite)
-        Benchmark.__init__(self, driver, logf, appmode)
+        Benchmark.__init__(self, driver, logf, appmode, offline)
 
     @property
     def name(self):
-        return "GUIMark3 %s" % self.suite
+        return "GUIMark3 %s%s" % (self.suite, self.name_common_ext())
 
     @property
     def metric(self):
@@ -28,7 +28,10 @@ class GUIMark3(Benchmark):
 
     @property
     def _url(self):
-        return self._SUITES[self.suite.lower()]        
+        if self.offline:
+            path = self.webbench_path + "GUIMark3"
+            return self._SUITES[self.suite.lower()] % path
+        return self._SUITES[self.suite.lower()] % "http://www.craftymind.com/factory/guimark3"
 
     def run(self):
         self.open(self._url)

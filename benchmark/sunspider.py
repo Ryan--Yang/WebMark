@@ -11,17 +11,17 @@ class SunSpider(Benchmark):
         "isolated" : "http://192.168.1.36/workloads/sunspider/driver.html"
     }
 
-    def __init__(self, driver, logf, appmode=False, version = '0.9.1'):
+    def __init__(self, driver, logf, appmode=False, offline=False, version = '0.9.1'):
         if self._VERSIONS.has_key(version):
             self.version = version
         else:
             raise WebMarkException("Unsupported version %s, "
             "should be one of '0.9.1', '0.9', 'inside', 'isolated'." % version)
-        Benchmark.__init__(self, driver, logf, appmode)
+        Benchmark.__init__(self, driver, logf, appmode, offline)
 
     @property
     def name(self):
-        return "SunSpider(%s)" % self.version
+        return "SunSpider(%s%s)" % (self.name_common_ext(True), self.version)
 
     @property
     def metric(self):
@@ -29,6 +29,8 @@ class SunSpider(Benchmark):
 
     @property
     def _url(self):
+        if self.offline:
+            return self.webbench_path + 'SunSpider/sunspider-0.9.1/driver.html'
         return self._VERSIONS[self.version]
         
     def run(self):

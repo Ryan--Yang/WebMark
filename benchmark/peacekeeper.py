@@ -9,7 +9,7 @@ class Peacekeeper(Benchmark):
 
     @property
     def name(self):
-        return "Peacekeeper"
+        return "Peacekeeper%s" % self.name_common_ext()
 
     @property
     def metric(self):

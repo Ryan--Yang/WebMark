@@ -5,20 +5,20 @@ from common.exceptions import WebMarkException
 
 class Dromaeo(Benchmark):
     _SUITES = {
-        "all javascript tests" : "http://dromaeo.com/?dromaeo|sunspider|v8",
-        "all dom tests" : "http://dromaeo.com/?dom|jslib|cssquery"
+        "all javascript tests" : "%s?dromaeo|sunspider|v8",
+        "all dom tests" : "%s?dom|jslib|cssquery"
     }
-    def __init__(self, driver, logf, appmode=False, suite = 'All JavaScript Tests'):
+    def __init__(self, driver, logf, appmode=False, offline=False, suite = 'All JavaScript Tests'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'All JavaScript Tests', 'All DOM Tests'." % suite)
-        Benchmark.__init__(self, driver, logf, appmode)
+        Benchmark.__init__(self, driver, logf, appmode, offline)
 
     @property
     def name(self):
-        return "Dromaeo(%s)" % self.suite
+        return "Dromaeo(%s%s)" % (self.name_common_ext(True), self.suite)
 
     @property
     def metric(self):
@@ -26,7 +26,10 @@ class Dromaeo(Benchmark):
 
     @property
     def _url(self):
-        return self._SUITES[self.suite.lower()]        
+        if self.offline:
+            path = self.webbench_path + "dromaeo/index.html"
+            return self._SUITES[self.suite.lower()] % path
+        return self._SUITES[self.suite.lower()] % "http://dromaeo.com/"      
 
     def run(self):
         self.open(self._url)
