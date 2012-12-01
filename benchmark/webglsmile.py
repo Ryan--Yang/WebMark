@@ -3,6 +3,8 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class WebGLSmile(Benchmark):
+    TYPE = 'return browserType.ie'
+
     def __init__(self, driver, logf):
         Benchmark.__init__(self, driver, logf)
 
@@ -16,6 +18,11 @@ class WebGLSmile(Benchmark):
         
     def run(self):
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglsmile/webgl_Smile.html")
+
+        type = self.driver.execute_script(self.TYPE)
+        if type:
+            return 0
+
         time.sleep(300)	
 
         elem = self.driver.find_element_by_id("FPS")

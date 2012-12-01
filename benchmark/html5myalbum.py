@@ -43,10 +43,10 @@ class HTML5MyAlbum(Benchmark):
         elem = self.driver.find_element_by_tag_name("button")
         elem.click()
 
-        wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: x.current_url.lower().find("result") != -1)
-
+        wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: x.current_url.lower().find("result.html") != -1)
         elem = self.driver.find_element_by_class_name("cont_primary_metric")
         str = elem.text
+        print str
         start = str.find("=") + 1
         end = str.find("ms")
         str = str[start:end].strip()

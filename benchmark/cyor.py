@@ -6,6 +6,7 @@ from common.exceptions import WebMarkException
 class Cyor(Benchmark):
     tests = ("Triangles", "Pyramids", "Cubes", "Blending", "Spheres", "Lights", "Mass")
 	
+    TYPE = 'return browserType.ie'
     CURRENT = 'return currentTest == 8'
 	
     _STYLES = {
@@ -36,6 +37,11 @@ class Cyor(Benchmark):
 		
     def run(self):
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/Cyor/")
+
+        type = self.driver.execute_script(self.TYPE)
+        if type:
+            return 0
+
         time.sleep(5)	
 
         ratio = self.driver.find_element_by_id(self._id)

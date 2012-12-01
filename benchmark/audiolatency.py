@@ -4,6 +4,7 @@ from benchmark import Benchmark
 
 class AudioLatency(Benchmark):
     TABLE = 'return document.getElementById("table").innerHTML'
+    TYPE = 'return browserType.ie'
 	
     def __init__(self, driver, logf):
         Benchmark.__init__(self, driver, logf)
@@ -17,6 +18,10 @@ class AudioLatency(Benchmark):
         return "ms"
         
     def run(self):
+        type = self.driver.execute_script(self.TYPE)
+        if type:
+            return 0
+
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/audio/AudioLatency/")
         time.sleep(60)
 

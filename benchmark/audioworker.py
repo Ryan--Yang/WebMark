@@ -4,6 +4,8 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class AudioWorker(Benchmark):	
+    TYPE = 'return browserType.ie'
+
     def __init__(self, driver, logf):
         Benchmark.__init__(self, driver, logf)
 
@@ -44,6 +46,10 @@ class AudioWorker(Benchmark):
         return round(100*cpuper, 2)
 		
     def run(self):
+        type = self.driver.execute_script(self.TYPE)
+        if type:
+            return 0
+
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/audio/AudioWorker/audio_transform.html")
         time.sleep(5)
 		

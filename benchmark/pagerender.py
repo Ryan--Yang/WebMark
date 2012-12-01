@@ -20,7 +20,7 @@ class PageRender(Benchmark):
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/htmlRendering/PageRender/iterations_rev11_new.html")
         time.sleep(5)
 		
-        wait.WebDriverWait(self.driver, 3600, 5).until(lambda x: x.execute_script(self.IS_Complete))
+        wait.WebDriverWait(self.driver, 3600, 30).until(lambda x: x.execute_script(self.IS_Complete))
         elem = self.driver.find_element_by_xpath("//div/p")
         str = elem.text
         pos = str.find("The Final Result is") + len("The Final Result is")
