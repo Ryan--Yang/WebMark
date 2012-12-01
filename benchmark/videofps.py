@@ -5,7 +5,6 @@ from benchmark import Benchmark
 class VideoFPS(Benchmark):
     ENDED = 'return document.getElementById("video_frame").ended'
     PLAY = 'return document.getElementById("video_frame").play()'
-    TYPE = 'return browserType.ie'
 
     def __init__(self, driver, logf):
         Benchmark.__init__(self, driver, logf)
@@ -19,12 +18,11 @@ class VideoFPS(Benchmark):
         return "fps"
         
     def run(self):
+        if self.driver.name.find("internet explorer") !=-1:
+            return 0
+
         self.open("http://pnp.sh.intel.com/html5_video/")
         time.sleep(10)
-		
-        type = self.driver.execute_script(self.TYPE)
-        if type:
-            return 0
 			
         self.driver.execute_script(self.PLAY)		
 		

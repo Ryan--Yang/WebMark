@@ -3,7 +3,6 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class WebTouch(Benchmark):
-    TYPE = 'return browserType.ie'
     DETAIL = 'return document.getElementById("bws_panel_control_panel_web_touch__result_summary").innerHTML'
 
     def __init__(self, driver, logf):
@@ -23,8 +22,7 @@ class WebTouch(Benchmark):
 
 			
     def run(self):
-        type = self.driver.execute_script(self.TYPE)
-        if type:
+        if self.driver.name.find("internet explorer") !=-1:
             return 0
 
         self.open("http://pnp.sh.intel.com/benchmarks/BWS/workload/webtouch/src/web_touching.html")

@@ -3,8 +3,6 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class WebGLSmile(Benchmark):
-    TYPE = 'return browserType.ie'
-
     def __init__(self, driver, logf):
         Benchmark.__init__(self, driver, logf)
 
@@ -17,12 +15,10 @@ class WebGLSmile(Benchmark):
         return "fps"
         
     def run(self):
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglsmile/webgl_Smile.html")
-
-        type = self.driver.execute_script(self.TYPE)
-        if type:
+        if self.driver.name.find("internet explorer") !=-1:
             return 0
 
+        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglsmile/webgl_Smile.html")
         time.sleep(300)	
 
         elem = self.driver.find_element_by_id("FPS")

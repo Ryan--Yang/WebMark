@@ -5,8 +5,6 @@ from common.exceptions import WebMarkException
 
 class Cyor(Benchmark):
     tests = ("Triangles", "Pyramids", "Cubes", "Blending", "Spheres", "Lights", "Mass")
-	
-    TYPE = 'return browserType.ie'
     CURRENT = 'return currentTest == 8'
 	
     _STYLES = {
@@ -36,11 +34,10 @@ class Cyor(Benchmark):
         return self._STYLES[self.style.lower()]        
 		
     def run(self):
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/Cyor/")
-
-        type = self.driver.execute_script(self.TYPE)
-        if type:
+        if self.driver.name.find("internet explorer") !=-1:
             return 0
+
+        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/Cyor/")
 
         time.sleep(5)	
 

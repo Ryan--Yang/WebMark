@@ -36,7 +36,11 @@ class Aquarium(Benchmark):
         time.sleep(1)
 
     def run(self):
+        if self.driver.name.find("internet explorer") !=-1:
+            return 0
+
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/fishtank/aquarium/aquarium.html")
+
         self._set_fish_number_on_page()	
         elem = self.driver.find_element_by_id("fps")	
         fps = 0.0        
