@@ -15,6 +15,10 @@ class Peacekeeper(Benchmark):
     def metric(self):
         return "score"
 
+    @property
+    def extra_chrome_args(self):
+        return ['--always-authorize-plugins']
+
     def _chk_finished(self, driver):
         href = driver.current_url.lower()
         if href.find("results") != -1 or href.find("error") != -1:
