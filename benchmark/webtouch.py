@@ -22,7 +22,7 @@ class WebTouch(Benchmark):
 
 			
     def run(self):
-        if self.driver.name.find("internet explorer") !=-1:
+        if self.driver.name.find("internet explorer") !=-1 or self.driver.name.find("firefox") !=-1:
             return 0
 
         self.open("http://pnp.sh.intel.com/benchmarks/BWS/workload/webtouch/src/web_touching.html")

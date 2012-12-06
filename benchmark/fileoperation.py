@@ -17,6 +17,9 @@ class FileOperation(Benchmark):
         return "read/write MB/s"    
 		
     def run(self):
+        if self.driver.name.find("internet explorer") !=-1 or self.driver.name.find("firefox") !=-1:
+            return 0
+
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/fileOperation/fileOperation.html")
         time.sleep(10)
 		

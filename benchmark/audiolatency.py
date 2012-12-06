@@ -17,7 +17,7 @@ class AudioLatency(Benchmark):
         return "ms"
         
     def run(self):
-        if self.driver.name.find("internet explorer") !=-1:
+        if self.driver.name.find("internet explorer") !=-1 or self.driver.name.find("firefox") !=-1:
             return 0
 
         self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/audio/AudioLatency/")
