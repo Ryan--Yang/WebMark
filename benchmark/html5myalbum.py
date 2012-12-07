@@ -11,17 +11,17 @@ class HTML5MyAlbum(Benchmark):
 		"fancyshow" : "cb_fancy_show"
     }
 
-    def __init__(self, driver, logf, suite = 'slideshow'):
+    def __init__(self, driver, logf, appmode=False, suite = 'slideshow'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'slideshow', 'zoom', 'grayscale', 'fancyshow'." % suite)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "HTML5MyAlbum %s" % self.suite
+        return "HTML5MyAlbum %s%s" % (self.suite, self.name_common_ext())
 
     @property
     def metric(self):

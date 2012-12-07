@@ -10,17 +10,17 @@ class CrazyCube(Benchmark):
         "animation" : "http://pnp.sh.intel.com/benchmarks/WRTBench-git/css/crazycube/crazycube.html"
     }
 
-    def __init__(self, driver, logf, suite = 'transform'):
+    def __init__(self, driver, logf, appmode=False, suite = 'transform'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'transform', 'transition', 'animation'." % suite)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "CrazyCube %s" % self.suite
+        return "CrazyCube %s%s" % (self.suite, self.name_common_ext())
 
     @property
     def metric(self):

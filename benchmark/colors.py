@@ -5,12 +5,12 @@ from benchmark import Benchmark
 class Colors(Benchmark):
     RESULT_LEN = 'return result.length'
     RESULT = 'return result[1][1]'	
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "Colors"
+        return "Colors%s" % self.name_common_ext()
 
     @property
     def metric(self):

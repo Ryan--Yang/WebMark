@@ -13,17 +13,17 @@ class Cyor(Benchmark):
         "high" : "styleHigh"
     }
 
-    def __init__(self, driver, logf, style = 'medium'):
+    def __init__(self, driver, logf, appmode=False, style = 'medium'):
         if self._STYLES.has_key(style.lower()):
             self.style = style
         else:
             raise WebMarkException("Unsupported style %s, "
             "should be one of 'low', 'medium', 'high'." % style)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "Cyor %s style" % self.style
+        return "Cyor %s%s" % (self.style, self.name_common_ext())
 
     @property
     def metric(self):

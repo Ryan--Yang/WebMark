@@ -6,7 +6,7 @@
             "noProxy":"localhost,127.0.0.1,*.intel.com"
         },
         "benchmarks":[
-            {"name":"SunSpider","args":{"offline":true}},
+            {"name":"SunSpider"},
             {"name":"V8BenchmarkSuite"},
             {"name":"FishIETank", "args":{"fishNumber":20}},
             {"name":"Octane"},
@@ -14,7 +14,7 @@
             {"name":"GUIMark3", "args":{"suite":"bitmap cache"}},
             {"name":"GUIMark3", "args":{"suite":"vector"}},
             {"name":"Dromaeo", "args":{"suite":"All JavaScript Tests"}},
-            {"name":"Dromaeo","runTimes":3, "args":{"suite":"All DOM Tests"}},
+            {"name":"Dromaeo", "args":{"suite":"All DOM Tests"}},
             {"name":"BrowserMark"},
             {"name":"Peacekeeper"},
             {"name":"Kraken"},
@@ -56,7 +56,7 @@
     },
     "ie":{
         "benchmarks":[
-            {"name":"SunSpider","args":{"offline":true}},
+            {"name":"SunSpider"},
             {"name":"V8BenchmarkSuite"},
             {"name":"FishIETank", "args":{"fishNumber":20}},
             {"name":"Octane"},
@@ -64,7 +64,7 @@
             {"name":"GUIMark3", "args":{"suite":"bitmap cache"}},
             {"name":"GUIMark3", "args":{"suite":"vector"}},
             {"name":"Dromaeo", "args":{"suite":"All JavaScript Tests"}},
-            {"name":"Dromaeo","runTimes":3, "args":{"suite":"All DOM Tests"}},
+            {"name":"Dromaeo", "args":{"suite":"All DOM Tests"}},
             {"name":"BrowserMark"},
             {"name":"Peacekeeper"},
             {"name":"Kraken"},
@@ -111,7 +111,7 @@
             "noProxy":"localhost,127.0.0.1,*.intel.com"
         },
         "benchmarks":[
-            {"name":"SunSpider","args":{"offline":true}},
+            {"name":"SunSpider"},
             {"name":"V8BenchmarkSuite"},
             {"name":"FishIETank", "args":{"fishNumber":20}},
             {"name":"Octane"},
@@ -119,7 +119,7 @@
             {"name":"GUIMark3", "args":{"suite":"bitmap cache"}},
             {"name":"GUIMark3", "args":{"suite":"vector"}},
             {"name":"Dromaeo", "args":{"suite":"All JavaScript Tests"}},
-            {"name":"Dromaeo","runTimes":3, "args":{"suite":"All DOM Tests"}},
+            {"name":"Dromaeo", "args":{"suite":"All DOM Tests"}},
             {"name":"BrowserMark"},
             {"name":"Peacekeeper"},
             {"name":"Kraken"},

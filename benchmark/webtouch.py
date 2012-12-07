@@ -5,12 +5,12 @@ from benchmark import Benchmark
 class WebTouch(Benchmark):
     DETAIL = 'return document.getElementById("bws_panel_control_panel_web_touch__result_summary").innerHTML'
 
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "WebTouch"
+        return "WebTouch%s" % self.name_common_ext()
 
     @property
     def metric(self):

@@ -5,12 +5,12 @@ from benchmark import Benchmark
 class Arkanoid(Benchmark):
     RESULT = 'return document.getElementById("twattext").value'
 
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "Arkanoid"
+        return "Arkanoid%s" % self.name_common_ext()
 
     @property
     def metric(self):

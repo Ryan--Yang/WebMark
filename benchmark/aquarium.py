@@ -5,18 +5,18 @@ from benchmark import Benchmark
 
 class Aquarium(Benchmark):
     fishes = (1, 10, 50, 100, 250, 500, 1000)
-    def __init__(self, driver, logf, fishNumber=50):
+    def __init__(self, driver, logf, appmode=False, fishNumber=50):
         if fishNumber in self.fishes:
             self.fishNumber = fishNumber
         else:
             raise WebMarkException("Unsupported fish number %d, "
             "should be one of (1, 10, 50, 100, 250, 500, 1000)" % fishNumber)
             
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "Aquarium(%d fish)" % self.fishNumber
+        return "Aquarium(%d fish)%s" % (self.fishNumber, self.name_common_ext())
 
     @property
     def metric(self):

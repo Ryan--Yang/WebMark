@@ -3,12 +3,12 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class RShadow(Benchmark):
-    def __init__(self, driver, logf):
-        Benchmark.__init__(self, driver, logf)
+    def __init__(self, driver, logf, appmode=False):
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "RShadow"
+        return "RShadow%s" % self.name_common_ext()
 
     @property
     def metric(self):

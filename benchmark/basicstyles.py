@@ -10,17 +10,17 @@ class BasicStyles(Benchmark):
         "table" : "http://pnp.sh.intel.com/benchmarks/WRTBench-git/css/attrChange/table.html"
     }
 
-    def __init__(self, driver, logf, suite = 'text'):
+    def __init__(self, driver, logf, appmode=False, suite = 'text'):
         if self._SUITES.has_key(suite.lower()):
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'text', 'list', 'table'." % suite)
-        Benchmark.__init__(self, driver, logf)
+        Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "BasicStyles %s" % self.suite
+        return "BasicStyles %s%s" % (self.suite, self.name_common_ext())
 
     @property
     def metric(self):
