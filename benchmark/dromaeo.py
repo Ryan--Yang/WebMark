@@ -33,12 +33,15 @@ class Dromaeo(Benchmark):
 
     def run(self):
         self.open(self._url)
+        time.sleep(60)
+
         pause = self.driver.find_element_by_id("pause")
-        wait.WebDriverWait(self.driver, 60, 3).until(lambda x: pause.get_attribute("value") == "Run")
+        wait.WebDriverWait(self.driver, 600, 30).until(lambda x: pause.get_attribute("value") == "Run")
         pause.click()
-        time.sleep(200)
+
         elem = self.driver.find_element_by_id("timebar")
-        wait.WebDriverWait(self.driver, 1600, 120).until(lambda x: elem.text.find("Total") != -1)
+        wait.WebDriverWait(self.driver, 1800, 60).until(lambda x: elem.text.find("Total") != -1)
+
         str = elem.text
         pos1 = str.find(":") + 1
         pos2 = str.find("runs/s")
