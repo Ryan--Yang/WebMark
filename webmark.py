@@ -13,6 +13,34 @@ from common.chrome_options import Options
 from common.exceptions import WebMarkException
 from common import utils
 from common.chromedriver import WebDriver as ChromeDriver
+import platform
+import threading
+import win32gui
+import win32con
+
+def winEnumHandler(hwnd, ctx):
+    title = win32gui.GetWindowText(hwnd)
+    if title=='Warning: Unresponsive script' or title=='Windows Internet Explorer' or title.find("Command line server") != -1:
+        print title
+        win32gui.SendMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+
+class Timer(threading.Thread):  
+	def __init__(self):  
+		threading.Thread.__init__(self) 
+		threading.Thread.setDaemon(self,True)
+		self.isPlay = True
+
+	def do(self):  	
+		print "timer executed"
+		win32gui.EnumWindows(winEnumHandler, None)
+		
+	def run(self): 
+		while self.isPlay :  
+			time.sleep(300)  
+			self.do()  
+
+	def stop(self):  
+		self.isPlay = False
 
 class WebMark(object):
     def __init__(self):
@@ -25,8 +53,14 @@ class WebMark(object):
         self.logf = file(rs_path + 'result_' + strTime + '.log', 'w')
         self.driver = None
 
+        sysstr = platform.system()		
+        if(sysstr =="Windows"):		
+            self.timer = Timer()
+            self.timer.start()
+
     def __del__(self):
         self.logf.close()
+        self.timer.stop()
 
     def _suite_setup(self, browser='chrome', binary=None, proxy=None):
         self.browser = browser
