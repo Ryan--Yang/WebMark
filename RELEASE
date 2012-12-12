@@ -1,0 +1,12 @@
+#Version 0.1
+*Support browsers IE,Chrome,Firefox
+*Support setting proxy for browser
+*Support automating benchmarks https://tizen.jf.intel.com/index.php?title=Web_runtime_benchmark
+*Support automating benchmarks http://pnp.sh.intel.com/wiki/index.php/WRTBench
+*Support running benchmarks N times and getting the average result
+*Support WebAPP mode
+*Support offline mode for benchmarks in project WebBench(http://github.com/gyagp/WebBench.git)
+*Support different versions for SunSpider and V8 benchmark suite
+*Support different suites for Dromaeo and GUIMark3
+*Support setting different fish numbers for IEfishtank
+*Support pass command line arguments for chrome in specific benchmark
