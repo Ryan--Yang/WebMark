@@ -2,22 +2,37 @@ import platform
 import time
 from selenium.webdriver.support import wait
 from benchmark import Benchmark
+from common.exceptions import WebMarkException
 
 class VideoCPU(Benchmark):
     ENDED = 'return document.getElementById("video_frame").ended'
     PLAY = 'return document.getElementById("video_frame").play()'
 
-    def __init__(self, driver, logf, appmode=False):
+    _SUITES = {
+        "fullscreen" : "http://pnp.sh.intel.com/html5_video/",
+        "non-fullscreen" : "http://pnp.sh.intel.com/html5_video/"
+    }
+
+    def __init__(self, driver, logf, appmode=False, suite = 'fullscreen'):
+        if self._SUITES.has_key(suite.lower()):
+            self.suite = suite
+        else:
+            raise WebMarkException("Unsupported suite %s, "
+            "should be one of 'fullscreen', 'non-fullscreen'." % suite)
         Benchmark.__init__(self, driver, logf, appmode)
 
     @property
     def name(self):
-        return "VideoCPU%s" % self.name_common_ext()
+        return "VideoCPU %s%s" % (self.suite, self.name_common_ext())
 
     @property
     def metric(self):
         return "%"
-        
+
+    @property
+    def _url(self):
+        return self._SUITES[self.suite.lower()]   
+ 
     def _read_cpu_usage(self): 
         try:
             fd = open("/proc/stat", 'r')
@@ -49,7 +64,12 @@ class VideoCPU(Benchmark):
     def run(self):
         self.open("http://pnp.sh.intel.com/html5_video/")
         time.sleep(5)		
-			
+	
+        if self.suite.lower() == "fullscreen":			
+            elem = self.driver.find_element_by_id("fullscreen-button")
+            elem.click()
+            time.sleep(5)
+		
         self.driver.execute_script(self.PLAY)		
         time.sleep(10)	
 		
@@ -75,6 +95,6 @@ class VideoCPU(Benchmark):
             else:			
                 utilization += (self.get_cpu_usage() - utilization)/i
                 print 'CPU Utilization: %.2f%%' % (utilization)				
-            time.sleep(5)			
+            time.sleep(20)			
 			
         return utilization
