@@ -1,6 +1,7 @@
 #Version 0.1
 *Support browsers IE,Chrome,Firefox
 *Support setting proxy for browser
+*Support set binary path for Chrome and Firefox
 *Support automating benchmarks https://tizen.jf.intel.com/index.php?title=Web_runtime_benchmark
 *Support automating benchmarks http://pnp.sh.intel.com/wiki/index.php/WRTBench
 *Support running benchmarks N times and getting the average result
