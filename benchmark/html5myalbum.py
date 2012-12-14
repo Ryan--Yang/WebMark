@@ -8,7 +8,7 @@ class HTML5MyAlbum(Benchmark):
         "slideshow" : "cb_slide_show",
         "zoom" : "cb_zoom",
         "grayscale" : "cb_gray_scale",
-		"fancyshow" : "cb_fancy_show"
+	"fancyshow" : "cb_fancy_show"
     }
 
     def __init__(self, driver, logf, appmode=False, suite = 'slideshow'):

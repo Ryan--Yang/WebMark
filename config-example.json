@@ -24,7 +24,8 @@
             {"name":"BBench"},		
             {"name":"HTML5MyAlbum", "args":{"suite":"slideshow"}},
             {"name":"HTML5MyAlbum", "args":{"suite":"zoom"}},
-            {"name":"HTML5MyAlbum", "args":{"suite":"grayscale"}},			
+            {"name":"HTML5MyAlbum", "args":{"suite":"grayscale"}},
+            {"name":"HTML5MyAlbum", "args":{"suite":"fancyshow"}},			
             {"name":"CanvasEarth"},
             {"name":"Arkanoid"},
             {"name":"Asteroids"},
@@ -49,8 +50,10 @@
             {"name":"SkewScale"},
             {"name":"AudioWorker"},
             {"name":"AudioLatency"},
-            {"name":"VideoFPS"},
-            {"name":"VideoCPU"},
+            {"name":"VideoFPS", "args":{"suite":"non-fullscreen"}},
+            {"name":"VideoFPS", "args":{"suite":"fullscreen"}},
+            {"name":"VideoCPU", "args":{"suite":"non-fullscreen"}},
+            {"name":"VideoCPU", "args":{"suite":"fullscreen"}},
             {"name":"WebTouch"}
         ]
     },
@@ -74,7 +77,8 @@
             {"name":"BBench"},		
             {"name":"HTML5MyAlbum", "args":{"suite":"slideshow"}},
             {"name":"HTML5MyAlbum", "args":{"suite":"zoom"}},
-            {"name":"HTML5MyAlbum", "args":{"suite":"grayscale"}},			
+            {"name":"HTML5MyAlbum", "args":{"suite":"grayscale"}},	
+            {"name":"HTML5MyAlbum", "args":{"suite":"fancyshow"}},		
             {"name":"CanvasEarth"},
             {"name":"Arkanoid"},
             {"name":"Asteroids"},
@@ -99,8 +103,10 @@
             {"name":"SkewScale"},
             {"name":"AudioWorker"},
             {"name":"AudioLatency"},
-            {"name":"VideoFPS"},
-            {"name":"VideoCPU"},
+            {"name":"VideoFPS", "args":{"suite":"non-fullscreen"}},
+            {"name":"VideoFPS", "args":{"suite":"fullscreen"}},
+            {"name":"VideoCPU", "args":{"suite":"non-fullscreen"}},
+            {"name":"VideoCPU", "args":{"suite":"fullscreen"}},
             {"name":"WebTouch"}
         ]
     },
@@ -129,7 +135,8 @@
             {"name":"BBench"},		
             {"name":"HTML5MyAlbum", "args":{"suite":"slideshow"}},
             {"name":"HTML5MyAlbum", "args":{"suite":"zoom"}},
-            {"name":"HTML5MyAlbum", "args":{"suite":"grayscale"}},			
+            {"name":"HTML5MyAlbum", "args":{"suite":"grayscale"}},
+            {"name":"HTML5MyAlbum", "args":{"suite":"fancyshow"}},			
             {"name":"CanvasEarth"},
             {"name":"Arkanoid"},
             {"name":"Asteroids"},
@@ -154,8 +161,10 @@
             {"name":"SkewScale"},
             {"name":"AudioWorker"},
             {"name":"AudioLatency"},
-            {"name":"VideoFPS"},
-            {"name":"VideoCPU"},
+            {"name":"VideoFPS", "args":{"suite":"non-fullscreen"}},
+            {"name":"VideoFPS", "args":{"suite":"fullscreen"}},
+            {"name":"VideoCPU", "args":{"suite":"non-fullscreen"}},
+            {"name":"VideoCPU", "args":{"suite":"fullscreen"}},
             {"name":"WebTouch"}
         ]
     }
