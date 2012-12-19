@@ -36,7 +36,7 @@ class SunSpider(Benchmark):
     def run(self):
         self.open(self._url)
         time.sleep(60)
-        wait.WebDriverWait(self.driver, 60, 30).until(lambda x: x.current_url.lower().find("result") != -1)
+        wait.WebDriverWait(self.driver, 300, 30).until(lambda x: x.current_url.lower().find("result") != -1)
         elem = self.driver.find_element_by_id("console")
         str = elem.text
         pos = str.find("Total:")+len("Total:")
