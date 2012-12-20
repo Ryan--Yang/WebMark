@@ -39,6 +39,7 @@ The WebMark fonfigure file is JSON-formatted. See config-example.json for exampl
 [Field Summary]
 {
     "firefox":{
+		"binary":"..."             //optional
         "proxy":{...},             //optional
         "benchmarks":[             //required
             {
@@ -55,7 +56,9 @@ The WebMark fonfigure file is JSON-formatted. See config-example.json for exampl
 [Field Detailed]
 1.Browser Type
 Now, we support "firefox", "ie" and "chrome"
-2.Proxy
+2.binary
+The binary path of the browser, only Chrome and Firefox support the field. 
+3.Proxy
 A JSON object describing a Proxy configuration. It have the following fieldes
     *proxyType(Required)
         The type of proxy being used. Possible values are: 
@@ -74,13 +77,13 @@ A JSON object describing a Proxy configuration. It have the following fieldes
 		Specify some domains which do not use proxy. 
 		Expected format example(for Firefox and Chrome): 127.0.0.1,*.intel.com, 
 		Expected format example(for IE):*.intel.com;*.google.com 
-3.benchmarks 
+4.benchmarks 
 A list of JSON objects, each object is a benmark configuration.
-4.name 
+5.name 
 benchmark name
-5.runTimes 
+6.runTimes 
 Cofigure how many times the benchmark will run, the final result is the average result of these runs.
-6.args 
+7.args 
 Specify arguments for the benchmark. 
 Common arguments for all the benchmark:
 	appmode - (only valid in Chrome, ignored for other browsers) 

@@ -1,5 +1,6 @@
 {
     "firefox":{
+	"binary":"c:\\softwares\\firefox.exe",
         "proxy":{
             "proxyType":"manual",
             "httpProxy":"http://proxy.pd.intel.com:911",
@@ -111,6 +112,7 @@
         ]
     },
     "chrome":{
+	"binary":"/usr/bin/google-chrome",
         "proxy":{
             "proxyType":"manual",
             "httpProxy":"http://proxy.pd.intel.com:911",
