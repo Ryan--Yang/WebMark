@@ -3,28 +3,34 @@ from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class Kraken(Benchmark):
-    def __init__(self, driver, logf, appmode=False, offline=False):
-        Benchmark.__init__(self, driver, logf, appmode, offline)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "Kraken%s" % self.name_common_ext()
+        return "Kraken"
 
     @property
     def metric(self):
         return "ms"
 
     @property
-    def _url(self):
-        if self.offline:
-            return self.webbench_path + 'Kraken/kraken-1.1/driver.html'
+    def default_url(self):
         return "http://krakenbenchmark.mozilla.org/kraken-1.1/driver.html"
-        
-    def run(self):
-        self.open(self._url)
-        time.sleep(120)
-        wait.WebDriverWait(self.driver, 6000, 60).until(lambda x: x.current_url.lower().find("results") != -1)
-        elem = self.driver.find_element_by_id("console")
+
+    @property
+    def default_timeout(self):
+        return 900
+
+    @property
+    def expect_time(self):
+        return 120
+
+    def chk_finish(self, driver):
+        return driver.current_url.lower().find("results") != -1
+
+    def get_result(self, driver):
+        elem = driver.find_element_by_id("console")
         str = elem.text
         pos = str.find("Total:")+len("Total:")
         str = str[pos:].strip()

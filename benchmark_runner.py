@@ -1,4 +1,16 @@
 from common.exceptions import WebMarkException
+#from common.timeout_fun import TimeoutFun
+#from timeoutfun import TimeoutFun
+import time
+
+def _timeout_benchmark_run(benchmark):
+    benchmark.run()
+
+class Test(object):    
+	def ff2(self, s, t):
+		#raise Exception("test exception")
+		time.sleep(5)
+		return s + t
 
 class BenchmarkRunner(object):
     def __init__(self, logf, configure, browser=None):
@@ -14,11 +26,16 @@ class BenchmarkRunner(object):
     def run(self):
         if self.benchmark is None or self.browser is None:
             return
-        print "Run %s ..." % self.benchmark.name
+        print "Run %s ..." % self.benchmark.identifier
         self.browser.extra_args = self.benchmark.extra_chrome_args
         self._run_benchmark()
         self.browser.extra_args = None
-    
+        
+    def ff(self, s, t):
+        #raise Exception("test exception")
+        time.sleep(5)
+        return s + t
+       
     def _run_benchmark(self):
         rs_avg = 0.0
         valid_times = 0
@@ -26,6 +43,10 @@ class BenchmarkRunner(object):
             try:               
                 self.benchmark.webdriver = self.browser.start()
                 rs = self.benchmark.run()
+                #rs = TimeoutFun(self.benchmark.run, self.benchmark.timeout).call()
+                #rs = TimeoutFun(_timeout_benchmark_run, self.benchmark.timeout).call(self.benchmark)
+                #rs = TimeoutFun(self.ff, 10).call(2, 3)
+                #rs = TimeoutFun(Test().ff2, 7).call(2, 3)
                 if self.run_times > 1:
                     if i > self.omit_begin_times and i <= self.run_times - self.omit_end_times:
                         valid_times += 1
@@ -44,7 +65,7 @@ class BenchmarkRunner(object):
             finally:
                 self.browser.stop()
             print "Turn %d:rs=%s, avg=%s" % (i, self._result_str(rs), self._result_str(rs_avg))
-        self._print("%s: %s %s" % (self.benchmark.name, self._result_str(rs_avg), self.benchmark.metric))
+        self._print("%s: %s %s" % (self.benchmark.identifier, self._result_str(rs_avg), self.benchmark.metric))
         
     def _parse_configure(self, conf):
         self.benchmark = None
@@ -59,7 +80,7 @@ class BenchmarkRunner(object):
         if conf.has_key('omitEnd') and isinstance(conf['omitEnd'], int) and conf['omitEnd'] > 1:
             self.omit_end_times = conf['omitEnd']
         if self.omit_end_times + self.omit_begin_times >= self.run_times:
-            self._print(self.benchmark.name + ": warning, omitBegin or omitEnd too big.")
+            self._print(self.benchmark.identifier + ": warning, omitBegin or omitEnd too big.")
             return
     
     def _setup_benchmark(self, conf):
@@ -72,9 +93,9 @@ class BenchmarkRunner(object):
         except ImportError:
             self._print(name + ": Import module error.")
             return None
-        args = 'self.driver,self.logf'
+        args = ''
         if conf.has_key('args') and conf['args'] is not None:
-            args += ', **conf["args"]'
+            args += '**conf["args"]'
         try:
             benchmark = eval(name + '(' + args + ')')
         except TypeError:
@@ -83,6 +104,35 @@ class BenchmarkRunner(object):
         except WebMarkException, e:
             self._print(name + ": " + str(e))
             return None
+            
+        offline = False
+        appmode = False
+        url = None
+        if conf.has_key('appmode') and conf['appmode'] is not None:
+            if not isinstance(conf['appmode'], bool):
+                self._print("%s configure error:appmode should be bool type" % name)
+                return None
+            appmode = conf['appmode']
+        if conf.has_key('offline') and conf['offline'] is not None:
+            if not isinstance(conf['offline'], bool):
+                self._print("%s configure error:offline should be bool type" % name)
+                return None
+            offline = conf['offline']
+        if conf.has_key('url') and conf['url'] is not None:
+            url = conf['url']
+        if offline and url is None:
+            self._print("%s configure error: url should exist if offline is true" % name)
+            return None
+            
+        if conf.has_key('timeout') and conf['timeout'] is not None:
+            benchmark.timeout = conf['timeout']
+        if conf.has_key('expect_time') and conf['expect_time'] is not None:
+            benchmark.wait_time = conf['expect_time']
+        
+        benchmark.log_file = self.logf
+        benchmark.offline = offline
+        benchmark.appmode = appmode
+        benchmark.url = url
         return benchmark
 
     def _result_str(self, rs):
