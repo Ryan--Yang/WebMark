@@ -1,16 +1,6 @@
-from common.exceptions import WebMarkException
-#from common.timeout_fun import TimeoutFun
-#from timeoutfun import TimeoutFun
+from common.exceptions import WebMarkException, WebMarkTimeoutException
+from common.timeout_fun import TimeoutFun
 import time
-
-def _timeout_benchmark_run(benchmark):
-    benchmark.run()
-
-class Test(object):    
-	def ff2(self, s, t):
-		#raise Exception("test exception")
-		time.sleep(5)
-		return s + t
 
 class BenchmarkRunner(object):
     def __init__(self, logf, configure, browser=None):
@@ -30,23 +20,14 @@ class BenchmarkRunner(object):
         self.browser.extra_args = self.benchmark.extra_chrome_args
         self._run_benchmark()
         self.browser.extra_args = None
-        
-    def ff(self, s, t):
-        #raise Exception("test exception")
-        time.sleep(5)
-        return s + t
-       
+      
     def _run_benchmark(self):
         rs_avg = 0.0
         valid_times = 0
         for i in range(1,self.run_times + 1):
             try:               
                 self.benchmark.webdriver = self.browser.start()
-                rs = self.benchmark.run()
-                #rs = TimeoutFun(self.benchmark.run, self.benchmark.timeout).call()
-                #rs = TimeoutFun(_timeout_benchmark_run, self.benchmark.timeout).call(self.benchmark)
-                #rs = TimeoutFun(self.ff, 10).call(2, 3)
-                #rs = TimeoutFun(Test().ff2, 7).call(2, 3)
+                rs = TimeoutFun(self.benchmark.run, self.benchmark.timeout + 180).call()
                 if self.run_times > 1:
                     if i > self.omit_begin_times and i <= self.run_times - self.omit_end_times:
                         valid_times += 1
@@ -59,6 +40,10 @@ class BenchmarkRunner(object):
                             rs_avg += (rs - float(rs_avg)) / valid_times
                 else:
                     rs_avg = rs
+            except WebMarkTimeoutException, timeout:
+                rs = "N/A"
+                self.browser.stop_service()
+                print "Exception:", timeout
             except Exception, e:
                 rs = "N/A"
                 print "Exception:", e

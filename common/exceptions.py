@@ -28,3 +28,7 @@ class WebMarkException(Exception):
             exception_msg = "%s; Stacktrace: %s " \
                 % (exception_msg, str(self.stacktrace))
         return exception_msg
+
+class WebMarkTimeoutException(WebMarkException):
+    def __init__(self, msg=None, screen=None, stacktrace=None):
+        WebMarkException.__init__(self, msg, screen, stacktrace)
