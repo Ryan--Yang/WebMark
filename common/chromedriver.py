@@ -44,6 +44,9 @@ class WebDriver(ChromeDriver):
         ('POST', '/session/$sessionId/chrome/heapprofilerdump')
     }
     self.command_executor._commands.update(custom_commands)
+	
+  def stop_service(self):
+    self.service.stop()
 
   def get_installed_extensions(self):
     ids = ChromeDriver.execute(

@@ -4,6 +4,8 @@ from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from common.chrome_options import Options
 from common import utils
 from common.chromedriver import WebDriver as ChromeDriver
+from common.iedriver import WebDriver as IeDriver
+from common.firefoxdriver import WebDriver as FirefoxDriver
 
 class Browser(object):
     def __init__(self, name='chrome', binary=None, proxy=None):
@@ -33,6 +35,16 @@ class Browser(object):
     def stop(self):
         if self.webdriver is not None:
             self._driver_quit()
+    
+    def stop_service(self):
+        if self.webdriver is not None:
+            try:
+                self.webdriver.stop_service()
+                self.webdriver = None
+            except Exception, e:
+                print e
+                pass
+            time.sleep(1)
 
     @property
     def driver(self):
@@ -59,14 +71,14 @@ class Browser(object):
     def _ie_setup(self):
         if self.proxy is not None:
             utils.set_ie_proxy(self.proxy)
-        self.webdriver = webdriver.Ie(log_level="DEBUG", log_file="C:\\pinger\\proj\\my_programes\\bm_auto\\iedriver.log")
+        self.webdriver = IeDriver()
 
     def _firefox_setup(self) :
         firefox_binary = FirefoxBinary(self.binary)
         firefox_profile = webdriver.FirefoxProfile()
         if self.proxy is not None:
             firefox_profile.set_proxy(utils.proxy_raw_format(self.proxy))
-        self.webdriver = webdriver.Firefox(firefox_profile=firefox_profile, firefox_binary=firefox_binary)
+        self.webdriver = FirefoxDriver(firefox_profile=firefox_profile, firefox_binary=firefox_binary)
         
     def _driver_quit(self):
         try:

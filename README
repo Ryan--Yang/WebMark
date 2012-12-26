@@ -39,11 +39,16 @@ The WebMark fonfigure file is JSON-formatted. See config-example.json for exampl
 [Field Summary]
 {
     "firefox":{
-		"binary":"..."             //optional
+	"binary":"..."             //optional
         "proxy":{...},             //optional
         "benchmarks":[             //required
             {
               "name":"...",        //required
+              "appmode":<bool>,    //optional
+              "offline":<bool>,    //optional
+              "url":"...",         //optional
+              "timeout":<Num>,     //optional
+              "expect_time":<Num>, //optional
               "runTimes":<Num>,    //optional
               "args":{...}         //optional
             },
@@ -81,18 +86,21 @@ A JSON object describing a Proxy configuration. It have the following fieldes
 A list of JSON objects, each object is a benmark configuration.
 5.name 
 benchmark name
-6.runTimes 
+6.appmode 
+Only valid in Chrome, ignored for other browsers. If "true" is specified, the benchmark will run in app mode, otherwise, the benchmark will run in browser mode.
+7.offline 
+If "true" is specified, the benchmark will use the local copy whose path is specified by "url", and the benchmark will use online link otherwise.
+If "true" is specified, the url must be specified.
+8.url 
+Specify the real url for the benchmark instead of the default url. Must be specified if offline is false.
+9.timeout 
+Specify the maximum seconds the benchmark could run.
+10.expect_time 
+Specify the expect time(Seconds) the benchmark will run. 
+11.runTimes 
 Cofigure how many times the benchmark will run, the final result is the average result of these runs.
-7.args 
+12.args 
 Specify arguments for the benchmark. 
-Common arguments for all the benchmark:
-	appmode - (only valid in Chrome, ignored for other browsers) 
-		If "true" is specified, the benchmark will run in app mode, 
-		otherwise, the benchmark will run in browser mode. 
-	offline - (only valid if the benchmark support offline mode, ignored otherwise) 
-		If "true" is specified, the benchmark will use the local copy, 
-		and the benchmark will use online link otherwise.
-		
 
 		
 #Run WebMark
