@@ -1,27 +1,37 @@
 import time
-from selenium.webdriver.support import wait
+from common.exceptions import WebMarkException
 from benchmark import Benchmark
 
 class WebGLSmile(Benchmark):
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "WebGLSmile%s" % self.name_common_ext()
+        return "WebGLSmile"
 
     @property
     def metric(self):
         return "fps"
-        
-    def run(self):
-        if self.driver.name.find("internet explorer") !=-1:
-            return 0
 
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglsmile/webgl_Smile.html")
-        time.sleep(300)	
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglsmile/webgl_Smile.html"
 
-        elem = self.driver.find_element_by_id("FPS")
+    @property
+    def default_timeout(self):
+        return 1500
+
+    @property
+    def expect_time(self):
+        return 300
+
+    def start(self, driver):
+        if driver.name.find("internet explorer") !=-1:
+            raise WebMarkException("internet explorer does not support WebGLSmile")
+
+    def get_result(self, driver):
+        elem = driver.find_element_by_id("FPS")
         str = elem.text
         start = str.find(":") + 1	
         str = str[start:].strip()

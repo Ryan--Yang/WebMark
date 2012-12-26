@@ -1,37 +1,41 @@
 import platform
 import time
-from selenium.webdriver.support import wait
-from benchmark import Benchmark
 from common.exceptions import WebMarkException
+from benchmark import Benchmark
 
 class VideoCPU(Benchmark):
     ENDED = 'return document.getElementById("video_frame").ended'
     PLAY = 'return document.getElementById("video_frame").play()'
+    _SUITES = ("fullscreen", "non-fullscreen")
 
-    _SUITES = {
-        "fullscreen" : "http://pnp.sh.intel.com/html5_video/",
-        "non-fullscreen" : "http://pnp.sh.intel.com/html5_video/"
-    }
-
-    def __init__(self, driver, logf, appmode=False, suite = 'fullscreen'):
-        if self._SUITES.has_key(suite.lower()):
+    def __init__(self, suite = 'fullscreen'):
+        if suite in self._SUITES:
             self.suite = suite
         else:
             raise WebMarkException("Unsupported suite %s, "
             "should be one of 'fullscreen', 'non-fullscreen'." % suite)
-        Benchmark.__init__(self, driver, logf, appmode)
+  
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "VideoCPU %s%s" % (self.suite, self.name_common_ext())
+        return "VideoCPU %s" % self.suite
 
     @property
     def metric(self):
         return "%"
 
     @property
-    def _url(self):
-        return self._SUITES[self.suite.lower()]   
+    def default_url(self):
+        return "http://pnp.sh.intel.com/html5_video/"
+      
+    @property
+    def default_timeout(self):
+        return 600
+
+    @property
+    def expect_time(self):
+        return 0
  
     def _read_cpu_usage(self): 
         try:
@@ -61,40 +65,38 @@ class VideoCPU(Benchmark):
         cpuper=float(usn2-usn1)/float(usni2-usni1)
         return round(100*cpuper, 2)
 		
-    def run(self):
-        self.open("http://pnp.sh.intel.com/html5_video/")
-        time.sleep(5)		
-	
+    def start(self, driver):
+        time.sleep(5)
+
         if self.suite.lower() == "fullscreen":			
-            elem = self.driver.find_element_by_id("fullscreen-button")
-            elem.click()
+            driver.find_element_by_id("fullscreen-button").click()
             time.sleep(5)
-		
-        self.driver.execute_script(self.PLAY)		
+        driver.execute_script(self.PLAY)	
         time.sleep(10)	
 		
         sysstr = platform.system()		
         if(sysstr =="Windows"):		
             import wmi
-            utilization = []	
+            self.utilization = []	
             c = wmi.WMI()
             for cpu in c.Win32_Processor():
-                utilization.append(0.0)
+                self.utilization.append(0.0)
         else:
-            utilization = 0.0
+            self.utilization = 0.0
 			
         i = 0			
-        while not self.driver.execute_script(self.ENDED):
+        while not driver.execute_script(self.ENDED):
             i += 1			
             if(sysstr =="Windows"):			
                 j = 0				
                 for cpu in c.Win32_Processor():
                     print '%s Utilization: %d%%' % (cpu.DeviceID, cpu.LoadPercentage)
-                    utilization[j] += (cpu.LoadPercentage - utilization[j])/i
+                    self.utilization[j] += (cpu.LoadPercentage - self.utilization[j])/i
                     j += 1	
             else:			
-                utilization += (self.get_cpu_usage() - utilization)/i
-                print 'CPU Utilization: %.2f%%' % (utilization)				
-            time.sleep(20)			
-			
-        return utilization
+                self.utilization += (self.get_cpu_usage() - self.utilization)/i
+                print 'CPU Utilization: %.2f%%' % (self.utilization)				
+            time.sleep(20)	
+
+    def get_result(self, driver):
+        return self.utilization

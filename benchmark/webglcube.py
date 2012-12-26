@@ -1,27 +1,37 @@
 import time
-from selenium.webdriver.support import wait
+from common.exceptions import WebMarkException
 from benchmark import Benchmark
 
 class WebGLCube(Benchmark):
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "WebGLCube%s" % self.name_common_ext()
+        return "WebGLCube"
 
     @property
     def metric(self):
         return "fps"
 
-    def run(self):
-        if self.driver.name.find("internet explorer") !=-1:
-            return 0
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglcube/webgl_Cube.html"
 
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/webglcube/webgl_Cube.html")
-        time.sleep(300)	
+    @property
+    def default_timeout(self):
+        return 1500
 
-        elem = self.driver.find_element_by_id("FPS")
+    @property
+    def expect_time(self):
+        return 300
+
+    def start(self, driver):
+        if driver.name.find("internet explorer") !=-1:
+            raise WebMarkException("internet explorer does not support WebGLCube")
+
+    def get_result(self, driver):
+        elem = driver.find_element_by_id("FPS")
         str = elem.text
         start = str.find(":") + 1	
         str = str[start:].strip()

@@ -1,25 +1,35 @@
 import time
-from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class UniSelectors(Benchmark):
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "UniSelectors%s" % self.name_common_ext()
+        return "UniSelectors"
 
     @property
     def metric(self):
         return "ms"
-        
-    def run(self):
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/css/uniselectors/uniselectors.html")
-        time.sleep(5)
-        elem = self.driver.find_element_by_id("output")
-        wait.WebDriverWait(self.driver, 1200, 10).until(lambda x: elem.text)
-        str = elem.text		
+
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/css/uniselectors/uniselectors.html"
+
+    @property
+    def default_timeout(self):
+        return 1500
+
+    @property
+    def expect_time(self):
+        return 60
+
+    def chk_finish(self, driver):
+        return driver.find_element_by_id("output").text !=""
+
+    def get_result(self, driver):
+        str = driver.find_element_by_id("output").text		
         start = str.find(":") + 1	
         end = str.find("ms")		
         str = str[start:end].strip()			

@@ -1,7 +1,6 @@
 import time
-from selenium.webdriver.support import wait
-from benchmark import Benchmark
 from common.exceptions import WebMarkException
+from benchmark import Benchmark
 
 class Cyor(Benchmark):
     tests = ("Triangles", "Pyramids", "Cubes", "Blending", "Spheres", "Lights", "Mass")
@@ -13,46 +12,51 @@ class Cyor(Benchmark):
         "high" : "styleHigh"
     }
 
-    def __init__(self, driver, logf, appmode=False, style = 'medium'):
+    def __init__(self, style = 'medium'):
         if self._STYLES.has_key(style.lower()):
             self.style = style
         else:
             raise WebMarkException("Unsupported style %s, "
             "should be one of 'low', 'medium', 'high'." % style)
-        Benchmark.__init__(self, driver, logf, appmode)
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "Cyor %s%s" % (self.style, self.name_common_ext())
+        return "Cyor %s" % self.style
 
     @property
     def metric(self):
-        return "score"    
+        return "score"      
+
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/Cyor/"
 
     @property
     def _id(self):
-        return self._STYLES[self.style.lower()]        
+        return self._STYLES[self.style.lower()]     
 		
-    def run(self):
-        if self.driver.name.find("internet explorer") !=-1:
-            return 0
+    @property
+    def default_timeout(self):
+        return 1500
 
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/Cyor/")
+    @property
+    def expect_time(self):
+        return 300
 
-        time.sleep(5)	
+    def start(self, driver):
+        if driver.name.find("internet explorer") !=-1:
+            raise WebMarkException("internet explorer does not support Cyor")
+        driver.find_element_by_id(self._id).click()
+        driver.find_element_by_tag_name("button").click()
 
-        ratio = self.driver.find_element_by_id(self._id)
-        ratio.click()	
-		
-        elem = self.driver.find_element_by_tag_name("button")
-        elem.click()
-		
-        time.sleep(300)
+    def chk_finish(self, driver):
+        return driver.execute_script(self.CURRENT)
 
-        wait.WebDriverWait(self.driver, 1200, 30).until(lambda x: x.execute_script(self.CURRENT))
+    def get_result(self, driver):
         fps = 0.0
         for i in range(len(self.tests)):	
-            elem = self.driver.find_element_by_id(self.tests[i])
+            elem = driver.find_element_by_id(self.tests[i])
             str = elem.text
             print str		
             start = str.find("(") + 1

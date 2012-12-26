@@ -1,30 +1,39 @@
 import time
-from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class LSZone(Benchmark):
     TASKID = 'return taskID'
 
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "LSZone%s" % self.name_common_ext()
+        return "LSZone"
 
     @property
     def metric(self):
         return "write/read/rewrite KB/s"
 
-    def run(self):
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/localStorage/localStorage_Test2.1.html")
-        time.sleep(10)
-		
-        res = [0.0, 0.0, 0.0]		
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/localStorage/localStorage_Test2.1.html"
 
-        wait.WebDriverWait(self.driver, 600, 30).until(lambda x: x.execute_script(self.TASKID) == 57)
+    @property
+    def default_timeout(self):
+        return 1500
+
+    @property
+    def expect_time(self):
+        return 60
+
+    def chk_finish(self, driver):
+        return driver.execute_script(self.TASKID) == 57
+
+    def get_result(self, driver):
+        res = [0.0, 0.0, 0.0]
         time.sleep(30)	
-        elems = self.driver.find_elements_by_tag_name("td")	
+        elems = driver.find_elements_by_tag_name("td")	
         str = elems[9].text
         str = str.strip()
         print str	

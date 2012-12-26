@@ -1,28 +1,42 @@
 import time
-from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class Arkanoid(Benchmark):
     RESULT = 'return document.getElementById("twattext").value'
 
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "Arkanoid%s" % self.name_common_ext()
+        return "Arkanoid"
 
     @property
     def metric(self):
         return "fps"
-        
-    def run(self):
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/canvas2D/Arkanoid/")
+
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/canvas2D/Arkanoid/"
+
+    @property
+    def default_timeout(self):
+        return 1500
+
+    @property
+    def expect_time(self):
+        return 0
+
+    def start(self, driver):
         time.sleep(5)
-        elem = self.driver.find_elements_by_tag_name("li")
-        elem[0].click()
-        wait.WebDriverWait(self.driver, 3600, 30).until(lambda x: x.execute_script(self.RESULT) != "")
-        str = self.driver.execute_script(self.RESULT)
+        driver.find_elements_by_tag_name("li")[0].click()
+
+
+    def chk_finish(self, driver):
+        return driver.execute_script(self.RESULT) != ""
+
+    def get_result(self, driver):
+        str = driver.execute_script(self.RESULT)
         start = str.find(":") + 1	
         end = str.find("MinFPS:")		
         str = str[start:end].strip()		

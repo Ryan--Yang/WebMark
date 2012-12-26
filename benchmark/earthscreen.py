@@ -1,27 +1,38 @@
 import time
-from selenium.webdriver.support import wait
+from common.exceptions import WebMarkException
 from benchmark import Benchmark
 
 class EarthScreen(Benchmark):
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "EarthScreen%s" % self.name_common_ext()
+        return "EarthScreen"
 
     @property
     def metric(self):
         return "fps"
-        
-    def run(self):
-        if self.driver.name.find("internet explorer") !=-1:
-            return 0
 
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/earth4video/earth4Video.html")
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/webGL/earth4video/earth4Video.html"
+
+    @property
+    def default_timeout(self):
+        return 1500
+
+    @property
+    def expect_time(self):
+        return 0
+
+    def start(self, driver):
+        if driver.name.find("internet explorer") !=-1:
+            raise WebMarkException("internet explorer does not support EarthScreen")
         time.sleep(300)	
 
-        elem = self.driver.find_element_by_id("FPS")
+    def get_result(self, driver):
+        elem = driver.find_element_by_id("FPS")
         str = elem.text
         start = str.find(":") + 1	
         str = str[start:].strip()

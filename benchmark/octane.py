@@ -23,7 +23,7 @@ class Octane(Benchmark):
 
     @property
     def expect_time(self):
-        return 90
+        return 0
 
     def start(self, driver):
         time.sleep(1)

@@ -1,24 +1,35 @@
 import time
-from selenium.webdriver.support import wait
 from benchmark import Benchmark
 
 class SkewScale(Benchmark):
-    def __init__(self, driver, logf, appmode=False):
-        Benchmark.__init__(self, driver, logf, appmode)
+    RESULT_LEN = 'return result.length'
+    RESULT = 'return result[1][1]'
+
+    def __init__(self):
+        Benchmark.__init__(self)
 
     @property
     def name(self):
-        return "SkewScale%s" % self.name_common_ext()
+        return "SkewScale"
 
     @property
     def metric(self):
         return "fps"
-        
-    def run(self):
-        self.open("http://pnp.sh.intel.com/benchmarks/WRTBench-git/css/skewscale/skewscale.html")
-        time.sleep(300)
-        elem = self.driver.find_element_by_id("FPS")
-        str = elem.text
+
+    @property
+    def default_url(self):
+        return "http://pnp.sh.intel.com/benchmarks/WRTBench-git/css/skewscale/skewscale.html"
+
+    @property
+    def default_timeout(self):
+        return 600
+
+    @property
+    def expect_time(self):
+        return 300
+
+    def get_result(self, driver):
+        str = driver.find_element_by_id("FPS").text
         start = str.find(":") + 1
         str = str[start:].strip()
         print str
