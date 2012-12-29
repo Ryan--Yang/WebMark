@@ -68,21 +68,23 @@ class VideoCPU(Benchmark):
     def start(self, driver):
         time.sleep(5)
 
-        if self.suite.lower() == "fullscreen":			
-            driver.find_element_by_id("fullscreen-button").click()
-            time.sleep(5)
-        driver.execute_script(self.PLAY)	
-        time.sleep(10)	
-		
         sysstr = platform.system()		
-        if(sysstr =="Windows"):		
+        if(sysstr =="Windows"):	
+            import pythoncom	
             import wmi
-            self.utilization = []	
+            self.utilization = []
+            pythoncom.CoInitialize()	
             c = wmi.WMI()
             for cpu in c.Win32_Processor():
                 self.utilization.append(0.0)
         else:
             self.utilization = 0.0
+
+        if self.suite.lower() == "fullscreen":			
+            driver.find_element_by_id("fullscreen-button").click()
+            time.sleep(5)
+        driver.execute_script(self.PLAY)	
+        time.sleep(10)	
 			
         i = 0			
         while not driver.execute_script(self.ENDED):
@@ -97,6 +99,9 @@ class VideoCPU(Benchmark):
                 self.utilization += (self.get_cpu_usage() - self.utilization)/i
                 print 'CPU Utilization: %.2f%%' % (self.utilization)				
             time.sleep(20)	
+
+        if(sysstr =="Windows"):	
+            pythoncom.CoUninitialize()
 
     def get_result(self, driver):
         return self.utilization
