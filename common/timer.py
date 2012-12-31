@@ -5,7 +5,7 @@ import win32con
 
 def winEnumHandler(hwnd, ctx):
     title = win32gui.GetWindowText(hwnd)
-    if title=='Warning: Unresponsive script' or title=='Windows Internet Explorer' or title.find("Command line server") != -1:
+    if title=='Warning: Unresponsive script' or title=='Windows Internet Explorer' or title.find("Command line server") != -1 or title.find("chromedriver.exe") != -1:
         print title
         win32gui.SendMessage(hwnd, win32con.WM_CLOSE, 0, 0)
 
