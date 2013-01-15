@@ -1,9 +1,20 @@
 {
    "app": {
-      "launch": {
-         "local_path": "blank.html",
-		 "container": "panel"
-      }
+    "launch": {
+      "web_url": "http://baidu.com"
+    },
+    "urls": [
+      "http://pnp.sh.intel.com/", 
+      "http://browsermark.rightware.com/",
+      "http://dromaeo.com/",  
+      "http://ie.microsoft.com/",
+      "http://www.craftymind.com/",
+      "http://krakenbenchmark.mozilla.org/",
+      "http://octane-benchmark.googlecode.com/",
+      "http://peacekeeper.futuremark.com/",
+      "http://www.webkit.org/perf/",
+      "http://v8.googlecode.com/"
+    ]
    },
    "description": "Run benchmark in app mode",
    "icons": {
