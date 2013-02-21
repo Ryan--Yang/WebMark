@@ -55,7 +55,11 @@
             {"name":"VideoFPS", "args":{"suite":"fullscreen"}},
             {"name":"VideoCPU", "args":{"suite":"non-fullscreen"}},
             {"name":"VideoCPU", "args":{"suite":"fullscreen"}},
-            {"name":"WebTouch"}
+            {"name":"WebTouch"},
+            {"name":"CanvasPerf"},
+            {"name":"DynamicCubemap"},
+            {"name":"ToonShading"},
+            {"name":"Dromaeocoredom"}
         ]
     },
     "ie":{
@@ -108,7 +112,11 @@
             {"name":"VideoFPS", "args":{"suite":"fullscreen"}},
             {"name":"VideoCPU", "args":{"suite":"non-fullscreen"}},
             {"name":"VideoCPU", "args":{"suite":"fullscreen"}},
-            {"name":"WebTouch"}
+            {"name":"WebTouch"},
+            {"name":"CanvasPerf"},
+            {"name":"DynamicCubemap"},
+            {"name":"ToonShading"},
+            {"name":"Dromaeocoredom"}
         ]
     },
     "chrome":{
@@ -167,7 +175,11 @@
             {"name":"VideoFPS", "args":{"suite":"fullscreen"}},
             {"name":"VideoCPU", "args":{"suite":"non-fullscreen"}},
             {"name":"VideoCPU", "args":{"suite":"fullscreen"}},
-            {"name":"WebTouch"}
+            {"name":"WebTouch"},
+            {"name":"CanvasPerf"},
+            {"name":"DynamicCubemap"},
+            {"name":"ToonShading"},
+            {"name":"Dromaeocoredom"}
         ]
     }
 }

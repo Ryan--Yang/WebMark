@@ -41,3 +41,7 @@ from audiolatency import AudioLatency
 from videocpu import VideoCPU
 from audioworker import AudioWorker
 from webtouch import WebTouch
+from dromaeo_core_dom import Dromaeocoredom
+from toonshading import ToonShading
+from dynamiccubemap import DynamicCubemap
+from canvasperf import CanvasPerf
