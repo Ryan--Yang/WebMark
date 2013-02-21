@@ -30,7 +30,7 @@ class VideoFPS(Benchmark):
       
     @property
     def default_timeout(self):
-        return 600
+        return 1800
 
     @property
     def expect_time(self):
@@ -40,11 +40,18 @@ class VideoFPS(Benchmark):
         if driver.name.find("internet explorer") !=-1:
             raise WebMarkException("internet explorer does not support VideoFPS")
 
-        time.sleep(5)
+        time.sleep(1)
+
+        for i in range(1,8):
+            driver.find_element_by_id("right_click").click()
+            time.sleep(1)
+
+        driver.find_element_by_id("thumb_2").click()
+        time.sleep(1)
 
         if self.suite.lower() == "fullscreen":			
             driver.find_element_by_id("fullscreen-button").click()
-            time.sleep(5)
+            time.sleep(1)
         driver.execute_script(self.PLAY)	
 
     def chk_finish(self, driver):
