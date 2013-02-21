@@ -1,8 +1,5 @@
 {
    "app": {
-    "launch": {
-      "web_url": "http://baidu.com"
-    },
     "urls": [
       "http://pnp.sh.intel.com/", 
       "http://browsermark.rightware.com/",
@@ -14,7 +11,11 @@
       "http://peacekeeper.futuremark.com/",
       "http://www.webkit.org/perf/",
       "http://v8.googlecode.com/"
-    ]
+    ],
+    "launch": {
+      "web_url": "http://baidu.com",
+      "container": "panel"
+    }
    },
    "description": "Run benchmark in app mode",
    "icons": {
