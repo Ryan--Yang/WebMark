@@ -1,17 +1,17 @@
 #Introduction
 WebMark is an open source project that targets to test the performance of browser/web runtime automatically.
 
-#Get Source
-Git Clone https://github.com/YupingChen/WebMark.git
-
 #Install prerequisite
+python
+sudo pip install selenium
+
 [Ubuntu]
     1.install python
-    2.apt-get install python-setuptools python-pip
+    2.apt-get install python-pip
     3.pip install selenium
     4.Download ChromeDriver from http://code.google.com/p/chromedriver/downloads/list. 
 	  Make sure ChromeDriver can be located on your PATH or specify its location 
-	  via the webdriver.chrome.driver system property 
+	  via the webdriver.chrome.driver system property
 [Windows]
     1.install python
     2.Download ez_setup.py and run it.
@@ -86,17 +86,18 @@ A JSON object describing a Proxy configuration. It have the following fieldes
 A list of JSON objects, each object is a benmark configuration.
 5.name 
 benchmark name
-6.appmode 
-Only valid in Chrome, ignored for other browsers. If "true" is specified, the benchmark will run in app mode, otherwise, the benchmark will run in browser mode.
-7.offline 
-If "true" is specified, the benchmark will use the local copy whose path is specified by "url", and the benchmark will use online link otherwise.
-If "true" is specified, the url must be specified.
-8.url 
-Specify the real url for the benchmark instead of the default url. Must be specified if offline is false.
+6.mode
+Only valid in Chrome, ignored for other browsers. 
+browser | app
+default is browser mode
+
+7.path
+external
+internal
+'specific url'
+
 9.timeout 
 Specify the maximum seconds the benchmark could run.
-10.expect_time 
-Specify the expect time(Seconds) the benchmark will run. 
 11.runTimes 
 Cofigure how many times the benchmark will run, the final result is the average result of these runs.
 12.args 
@@ -113,7 +114,6 @@ Specify arguments for the benchmark.
 You can get your result at <WebMark>/benchmark_test_results/result_<datetime>.log
 <datetime> == the date & time when run WebMark
 
-#Contacts
-<Gu Yang> yang.gu@intel.com
-<Yuping Chen> yupingx.chen@intel.com
-<Haizhou Hu> haizhoux.hu@intel.com 
+
+ProxyType:
+direct, manual, pac, autodetect, system

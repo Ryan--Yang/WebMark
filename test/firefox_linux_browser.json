@@ -1,0 +1,20 @@
+{
+  "suites": [
+    {
+      "name": "FireFox Linux Smoke Test",
+      "description": "FireFox Linux Smoke Test",
+      "browser": {
+        "name": "firefox",
+        "path": "/usr/bin/firefox",
+        "proxy":{
+          "type":"manual",
+          "http":"http://proxy.pd.intel.com:911",
+          "noproxy":"localhost,127.0.0.1,*.intel.com"
+        }
+      },
+      "cases": [
+        {"name":"FishIETank", "fish_number": 10, "path": "internal"}
+      ]
+    }
+  ]
+}

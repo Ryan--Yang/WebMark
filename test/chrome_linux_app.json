@@ -1,0 +1,23 @@
+{
+  "suites": [
+    {
+      "name": "Chrome Linux Smoke Test",
+      "description": "Chrome Linux Smoke Test",
+      "browser": {
+        "name": "chrome",
+        "path": "/usr/bin/google-chrome",
+        "driver": "/workspace/project/gyagp/WebMark/third_party/webdriver/chromedriver/chromedriver",
+        "mode": "app",
+        "switches": "--allow-file-access-from-files",
+        "proxy":{
+          "type":"manual",
+          "http":"http://proxy.pd.intel.com:911",
+          "noproxy":"localhost,127.0.0.1,*.intel.com"
+        }
+      },
+      "cases": [
+        {"name":"FishIETank", "fish_number": 10, "path": "internal"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+   "app": {
+    "launch": {
+      "web_url": "http://www.google.com",
+      "container": "panel"
+    }
+   },
+   "description": "Run benchmark as a hosted app",
+   "name": "Hosted App Benchmark",
+   "manifest_version": 2,
+   "version": "1.0.0",
+   "permissions": [
+      "unlimitedStorage",
+      "notifications",
+      "http://*/*",
+      "https://*/*"
+   ]
+}

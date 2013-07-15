@@ -14,7 +14,6 @@ from galactic import Galactic
 from speed_reading import SpeedReading
 from dromaeo import Dromaeo
 from guimark3 import GUIMark3
-#from test import Test1,Test2,Test3
 from pagerender import PageRender
 from bbench import BBench
 from uniselectors import UniSelectors

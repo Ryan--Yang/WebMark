@@ -11,7 +11,7 @@ class MyThread(threading.Thread):
     def run(self):
         threading.Thread.run(self)
 
-class TimeoutFun(object): 
+class Timeout(object): 
     def __init__(self, function, limit):
         """Initialize instance in preparation for being called."""
         if limit <= 0:

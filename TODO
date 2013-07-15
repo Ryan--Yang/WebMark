@@ -1,8 +1,17 @@
 [P1]
+Chrome on Windows
+Firefox on linux
+Firefox on Windows
+IE on Windows
+
 
 [P2]
 * Find an easy way to generate final report
 * Add check-in tests
 * Handle HW sleep
-
-
+* change readme
+* change help
+* unit test for selenium to make sure webdriver work
+* Support sunspider 1.0
+* gitignore
+* Modify benchmark
