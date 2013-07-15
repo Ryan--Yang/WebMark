@@ -1,0 +1,6 @@
+[submodule "third_party/WebDriver"]
+	path = third_party/WebDriver
+	url = http://github.com/gyagp/WebDriver.git
+[submodule "third_party/WebBench"]
+	path = third_party/WebBench
+	url = http://github.com/gyagp/WebBench.git

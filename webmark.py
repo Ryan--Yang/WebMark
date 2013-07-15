@@ -4,9 +4,9 @@ import time
 import platform
 import logging
 import os
-import sys
 from common.util import LOGGER
 from common.util import SYSTEM
+from common.util import PROJECT_PATH
 
 class Format:
     NAME = 0
@@ -126,7 +126,7 @@ class Suite:
 
         # Handle app mode
         if self.browser.mode == 'app':
-            app_path = sys.path[0] + '/hosted_app'
+            app_path = PROJECT_PATH + 'hosted_app'
             self.extension = self.driver.install_extension(app_path)
             self.driver.get('chrome:newtab')
             handles = self.driver.window_handles
@@ -150,7 +150,7 @@ class WebMark:
         LOGGER.setLevel(logging.DEBUG)
         formatter = logging.Formatter('[%(asctime)s - %(levelname)s] %(message)s', "%Y-%m-%d %H:%M:%S")
 
-        result_path = sys.path[0] + '/test_results/'
+        result_path = PROJECT_PATH + 'test_results/'
         if not os.path.exists(result_path):
             os.mkdir(result_path)
         log_file = logging.FileHandler(result_path + time.strftime('%Y-%m-%d-%X', time.localtime()) + '.log')

@@ -6,7 +6,7 @@
       "browser": {
         "name": "chrome",
         "path": "/usr/bin/google-chrome",
-        "driver": "/workspace/project/gyagp/WebMark/third_party/webdriver/chromedriver/chromedriver",
+        "driver": "third_party/WebDriver/chromedriver/chromedriver",
         "mode": "app",
         "switches": "--allow-file-access-from-files",
         "proxy":{
@@ -16,7 +16,7 @@
         }
       },
       "cases": [
-        {"name":"FishIETank", "fish_number": 10, "path": "external"}
+        {"name":"FishIETank", "fish_number": 10, "path": "internal"}
       ]
     }
   ]

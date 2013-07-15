@@ -1,10 +1,14 @@
 from google.chromedriver import WebDriver as GoogleWebDriver
 from google.chromedriver_launcher import ChromeDriverLauncher as GoogleChromeDriverLauncher
 from selenium.webdriver.support.wait import WebDriverWait
+from common.util import PROJECT_PATH
 
 class ChromeDriver(GoogleWebDriver):
     def __init__(self, browser):
         driver_path = browser.driver
+        if driver_path[0] != '/':
+            driver_path = PROJECT_PATH + driver_path
+
         binary = browser.path
         self.server = GoogleChromeDriverLauncher(driver_path).Launch()
         capabilities = {}

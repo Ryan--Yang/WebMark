@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import sys
 import time
 from common.util import LOGGER
+from common.util import PROJECT_PATH
 
 class Benchmark(object):
     poll_frequency = 90
@@ -16,7 +17,7 @@ class Benchmark(object):
         if case.path == 'external':
             self.path = config_path['external']
         elif case.path == 'internal':
-            self.path = 'file:///' + sys.path[0] + '/third_party/WebBench/' + config_path['internal']
+            self.path = 'file:///' + PROJECT_PATH + 'third_party/WebBench/' + config_path['internal']
         else:
             self.path = self.case.path
 
